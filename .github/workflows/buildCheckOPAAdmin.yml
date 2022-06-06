@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - OPAReact/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ./OPAReact/node_modules
+          key: modules-${{ hashFiles('package.json') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+
+        run: |
+          cd $GITHUB_WORKSPACE/OPAReact
+          npm install
+
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE/OPAReact
+          npm run lint
+          npm run build
