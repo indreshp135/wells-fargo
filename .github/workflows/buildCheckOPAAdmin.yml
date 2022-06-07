@@ -17,7 +17,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./OPAReact/node_modules
-          key: modules-${{ hashFiles('package.json') }}
+          key: modules-${{ hashFiles('./OPAReact/package.json') }}
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'

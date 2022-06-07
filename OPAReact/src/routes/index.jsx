@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { ScrollToTopController } from '../components/ScrollToTopController';
 // import { Footer } from "../components/Footer";
-// import { NavBar } from "../components/NavBar";
+import { NavBar } from '../components/NavBar';
 // import { Page404 } from "../components/Page404";
 
 export function Routes() {
   return (
     <Router>
-      {/* <NavBar /> */}
+      <NavBar />
       <ScrollToTopController />
       <Switch>
         {publicRoutes.map((route) => (

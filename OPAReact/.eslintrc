@@ -14,7 +14,7 @@
   },
   "plugins": ["react"],
   "rules": {
-    "no-console": "error",
+    "no-console": "warn",
     "indent": [
       "error",
       2,
