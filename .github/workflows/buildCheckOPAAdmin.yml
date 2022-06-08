@@ -30,4 +30,5 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/OPAReact
           npm run lint
+          cp src/config.example.js src/config.js
           npm run build
