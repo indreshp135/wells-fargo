@@ -1,0 +1,18 @@
+[
+    {
+        "model": "app.Action",
+        "pk": 1,
+        "fields": {
+            "action_id": "1",
+            "action_name": "READ"
+        }
+    },
+    {
+        "model": "app.Action",
+        "pk": 2,
+        "fields": {
+            "action_id": "2",
+            "action_name": "WRITE"
+        }
+    }
+]

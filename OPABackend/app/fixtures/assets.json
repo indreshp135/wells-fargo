@@ -1,0 +1,18 @@
+[
+    {
+        "model": "app.Asset",
+        "pk": 1,
+        "fields": {
+            "asset_id": "1",
+            "asset_name": "Bangalore"
+        }
+    },
+    {
+        "model": "app.Asset",
+        "pk": 2,
+        "fields": {
+            "asset_id": "2",
+            "asset_name": "Hyderabad"
+        }
+    }
+]
