@@ -3,3 +3,5 @@ server/.env
 app/migrations/
 .idea/
 env/
+db.sqlite3
+.env

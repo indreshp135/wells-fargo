@@ -9,7 +9,7 @@
 - Install the required packages
 	    `pip install -r requirements.txt`
 
-- Run 
+- Run
         `pre-commit install`
 
 - Start the server

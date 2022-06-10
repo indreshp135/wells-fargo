@@ -29,5 +29,6 @@ jobs:
       - name: Build
         run: |
           cd $GITHUB_WORKSPACE/OPAReact
+          cp src/config.example.js src/config.js
           npm run lint
           npm run build
