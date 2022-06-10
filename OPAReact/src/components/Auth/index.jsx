@@ -10,9 +10,11 @@ export function AuthPage() {
 
   // check if already authenticated
   useEffect(async () => {
-    const res = await getUserDetails();
-    if (res.status === 200) {
-      history.push('/');
+    if (sessionStorage.getItem('Token')) {
+      const res = await getUserDetails();
+      if (res.status === 200 && res.data.username) {
+        history.push('/');
+      }
     }
   });
 

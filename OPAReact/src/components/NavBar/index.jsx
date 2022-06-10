@@ -19,11 +19,10 @@ export function NavBar() {
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="/">
-          OPA Admin
+        <Navbar.Brand onClick={() => history.push('/')}>
+          PBE Admin
         </Navbar.Brand>
         <Nav className="ms-auto">
-          {currentLocation.pathname === '/' ? <Nav.Link onClick={() => history.push('/add')}><Button variant="warning">Add Item</Button></Nav.Link> : null}
           {currentLocation.pathname !== '/auth' ? <Nav.Link onClick={logout}><Button variant="danger">Logout</Button></Nav.Link> : null}
         </Nav>
       </Container>

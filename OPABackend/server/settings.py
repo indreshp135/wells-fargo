@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "drf_yasg",
     "corsheaders",
-    "app",
+    "app.apps.AppConfig",
     "allauth",
     "allauth.account",
     "dj_rest_auth.registration",
@@ -145,7 +145,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
+        "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication"

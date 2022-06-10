@@ -4,6 +4,7 @@ body {
   border: 0;
   animation: fadein 3s;
   overflow-x: hidden;
+  background: #f0f2f5;
 
   /* -youbkit-touch-callout: none;
   -youbkit-user-select: none;
