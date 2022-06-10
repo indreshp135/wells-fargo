@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Navbar, Container, Nav, Button
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { useHistory, useLocation } from 'react-router-dom';
 import { userLogout } from '../../requests';
 
@@ -13,7 +14,10 @@ export function NavBar() {
     sessionStorage.removeItem('Token');
     const res = await userLogout();
     if (res.status === 200) {
+      toast.success('Logged Out');
       history.push('/auth');
+    } else {
+      toast.error('Logout Failed');
     }
   };
   return (

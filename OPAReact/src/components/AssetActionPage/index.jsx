@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   Container, Col, Row, InputGroup, FormControl, Button, ListGroup
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import {
   getAssets, getActions, postAction, postAsset
 } from '../../requests';
@@ -28,6 +29,9 @@ export function AssetActionPage() {
     const res = await postAsset({ asset_name: Asset });
     if (res.status === 201) {
       setAssets([...Assets, res.data]);
+      toast.success('New Asset Added');
+    } else {
+      toast.error('Asset Add Failed');
     }
   };
 
@@ -35,6 +39,9 @@ export function AssetActionPage() {
     const res = await postAction({ action_name: Action });
     if (res.status === 201) {
       setActions([...Actions, res.data]);
+      toast.success('New Action Added');
+    } else {
+      toast.error('Action Add Failed');
     }
   };
 
