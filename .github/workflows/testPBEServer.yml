@@ -27,4 +27,5 @@ jobs:
     - name: Run Tests
       run: |
         cd $GITHUB_WORKSPACE/OPABackend
+        cp .env.example .env
         python manage.py test
