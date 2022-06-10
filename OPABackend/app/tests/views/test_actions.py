@@ -28,3 +28,13 @@ class ActionsTest(TestCase):
         response = ActionList.as_view()(request)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data["action_name"], "UPDATE")
+
+    def test_get_without_authentication(self):
+        request = self.factory.get("/api/actions/")
+        response = ActionList.as_view()(request)
+        self.assertEqual(response.status_code, 401)
+
+    def test_post_without_authentication(self):
+        request = self.factory.post("/api/actions/", {"action_name": "UPDATE"})
+        response = ActionList.as_view()(request)
+        self.assertEqual(response.status_code, 401)

@@ -28,3 +28,13 @@ class AssetsTest(TestCase):
         response = AssetList.as_view()(request)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data["asset_name"], "Delhi")
+
+    def test_get_without_authentication(self):
+        request = self.factory.get("/api/assets/")
+        response = AssetList.as_view()(request)
+        self.assertEqual(response.status_code, 401)
+
+    def test_post_without_authentication(self):
+        request = self.factory.post("/api/assets/", {"asset_name": "Delhi"})
+        response = AssetList.as_view()(request)
+        self.assertEqual(response.status_code, 401)
