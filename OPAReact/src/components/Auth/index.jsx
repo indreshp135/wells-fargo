@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { GAUTH_URL } from '../../urls';
 import './style.css';
 import { getUserDetails, googleAuth } from '../../requests';
@@ -10,9 +11,11 @@ export function AuthPage() {
 
   // check if already authenticated
   useEffect(async () => {
-    const res = await getUserDetails();
-    if (res.status === 200) {
-      history.push('/');
+    if (sessionStorage.getItem('Token')) {
+      const res = await getUserDetails();
+      if (res.status === 200 && res.data.username) {
+        history.push('/');
+      }
     }
   });
 
@@ -20,11 +23,38 @@ export function AuthPage() {
     const data = {
       access_token: accessToken
     };
-
+    toast.warn('Waiting for Authentication', {
+      position: 'bottom-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined
+    });
     const res = await googleAuth(data);
     if (res.status === 200 && res.data.key) {
       sessionStorage.setItem('Token', res.data.key);
       history.push('/');
+      toast.success('Authentication Success', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
+    } else {
+      toast.error('Authentication Failed', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      });
     }
   };
 

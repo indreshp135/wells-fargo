@@ -1,7 +1,32 @@
-.home-page {
+.deck {
+  margin: 0;
+  padding: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-flow: row wrap;
   justify-content: center;
-  height: 100vh;
+  list-style: none;
+}
+
+.box {
+  background: #fff;
+  margin: 30px;
+  padding: 30px;
+  width: 200px;
+  opacity: 0.95;
+  transition: box-shadow 0.3s;
+  border-radius: 1rem;
+  box-shadow: 0 12px 15px 0 hsl(0deg 0% 100% / 24%), 0 17px 50px 0 hsl(0deg 0% 100% / 19%);
+  text-align: center;
+  cursor: pointer;
+}
+
+.box h3 {
+  margin: 10px;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.box:hover {
+  scale: 1.05;
+  transition: scale 0.3s;
 }

@@ -3,6 +3,8 @@ import {
   BrowserRouter as Router, Switch, Route, Redirect
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { publicRoutes, privateRoutes } from './routes';
 
 import { ScrollToTopController } from '../components/ScrollToTopController';
@@ -17,6 +19,17 @@ export function Routes() {
       <NavBar />
       <ScrollToTopController />
       <Switches />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {/* <Footer /> */}
     </Router>
   );

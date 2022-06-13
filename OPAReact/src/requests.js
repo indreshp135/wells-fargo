@@ -1,5 +1,13 @@
 import axios from 'axios';
-import { GOOGLE_OAUTH_URL, LOGOUT_URL, USER_URL } from './urls';
+import {
+  ASSETS_GET_URL,
+  GOOGLE_OAUTH_URL,
+  LOGOUT_URL,
+  USER_URL,
+  ASSETS_POST_URL,
+  ACTION_GET_URL,
+  ACTION_POST_URL
+} from './urls';
 
 // public routes
 export const googleAuth = (data) => axios.post(GOOGLE_OAUTH_URL, data);
@@ -15,3 +23,11 @@ const header = {
 
 export const getUserDetails = () => axios.get(USER_URL, header);
 export const userLogout = () => axios.post(LOGOUT_URL, header);
+
+// Assets
+export const getAssets = () => axios.get(ASSETS_GET_URL, header);
+export const postAsset = (data) => axios.post(ASSETS_POST_URL, data, header);
+
+// Actions
+export const getActions = () => axios.get(ACTION_GET_URL, header);
+export const postAction = (data) => axios.post(ACTION_POST_URL, data, header);
