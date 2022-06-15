@@ -4,7 +4,9 @@
         "pk": 1,
         "fields": {
             "action_id": "1",
-            "action_name": "READ"
+            "action_name": "READ",
+            "created_at": "2020-01-01T00:00:00Z",
+            "created_by": 1
         }
     },
     {
@@ -12,7 +14,9 @@
         "pk": 2,
         "fields": {
             "action_id": "2",
-            "action_name": "WRITE"
+            "action_name": "WRITE",
+            "created_at": "2020-01-01T00:00:00Z",
+            "created_by": 1
         }
     }
 ]

@@ -15,26 +15,26 @@ class ActionsTest(TestCase):
         self.factory = APIRequestFactory()
         self.user = User.objects.get(username="test")
 
-    def test_get_Actions(self):
-        request = self.factory.get("/api/actions/")
+    def test_get_actions(self):
+        request = self.factory.get("/api/action/")
         force_authenticate(request, user=self.user)
         response = ActionList.as_view()(request)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
 
-    def test_post_Actions(self):
-        request = self.factory.post("/api/actions/", {"action_name": "UPDATE"})
+    def test_post_actions(self):
+        request = self.factory.post("/api/action/", {"action_name": "UPDATE"})
         force_authenticate(request, user=self.user)
         response = ActionList.as_view()(request)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data["action_name"], "UPDATE")
 
     def test_get_without_authentication(self):
-        request = self.factory.get("/api/actions/")
+        request = self.factory.get("/api/action/")
         response = ActionList.as_view()(request)
         self.assertEqual(response.status_code, 401)
 
     def test_post_without_authentication(self):
-        request = self.factory.post("/api/actions/", {"action_name": "UPDATE"})
+        request = self.factory.post("/api/action/", {"action_name": "UPDATE"})
         response = ActionList.as_view()(request)
         self.assertEqual(response.status_code, 401)

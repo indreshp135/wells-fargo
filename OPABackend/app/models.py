@@ -1,17 +1,47 @@
 from django.db import models
 
 
+class Application(models.Model):
+    application_id = models.AutoField(primary_key=True)
+    application_name = models.CharField(max_length=255)
+    application_description = models.TextField()
+    application_hash = models.CharField(max_length=255, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        "auth.User", related_name="created_applications", on_delete=models.CASCADE
+    )
+
+
 class SOD(models.Model):
     sod_code = models.AutoField(primary_key=True)
     sod_name = models.CharField(max_length=100)
+    application_id = models.ForeignKey("Application", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        "auth.User", related_name="created_sods", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.sod_name
 
 
+class SODUser(models.Model):
+    sod_code = models.ForeignKey("SOD", on_delete=models.CASCADE)
+    user_id = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        "auth.User", related_name="created_sod_users", on_delete=models.CASCADE
+    )
+    application_id = models.ForeignKey("Application", on_delete=models.CASCADE)
+
+
 class Asset(models.Model):
     asset_id = models.AutoField(primary_key=True)
     asset_name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        "auth.User", related_name="created_assets", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.asset_name
@@ -20,6 +50,10 @@ class Asset(models.Model):
 class Action(models.Model):
     action_id = models.AutoField(primary_key=True)
     action_name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        "auth.User", related_name="created_actions", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.action_name
@@ -34,7 +68,9 @@ class SODRules(models.Model):
     sod_rule_description = models.CharField(max_length=100)
     sod_rule_permission = models.BooleanField(default=True)
     sod_rule_created_date = models.DateTimeField(auto_now_add=True)
-    sod_rule_updated_date = models.DateTimeField(auto_now=True)
+    sod_rule_created_by = models.ForeignKey(
+        "auth.User", related_name="sod_rule_create_by", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.sod_rule_name

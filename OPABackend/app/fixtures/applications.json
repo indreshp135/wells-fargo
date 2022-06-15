@@ -1,0 +1,15 @@
+[
+    {
+        "model": "app.Application",
+        "pk": 1,
+        "fields": {
+            "application_id": 1,
+            "application_name": "My Application",
+            "application_description": "This is my application.",
+            "created_at": "2020-01-01T00:00:00Z",
+            "created_by": 1,
+            "application_hash": "123456789"
+        }
+
+    }
+]

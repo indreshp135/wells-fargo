@@ -15,7 +15,7 @@ export function EachSOD({
   const history = useHistory();
 
   function editPageRedirect(id) {
-    history.push(`/sod/update/${id.sodCode}`);
+    history.push(`sod/update/${id.sodCode}`);
   }
   async function deleteSODfunc(id) {
     const resp = await deleteSOD(id);

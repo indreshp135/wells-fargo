@@ -1,34 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faPlus,
-  faCalendar,
-  faUsers
+  faCalendarCheck
 } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import styles from './style.module.css';
-
-const box = [
-  { name: 'Actions & Asset', icon: faPlus, link: '/actions-assets' },
-  { name: 'SOD', icon: faCalendar, link: '/sod' },
-  { name: 'Exceptions', icon: faUsers, link: '/exception' }
-];
+import { getApplications } from '../../requests';
 
 export default function Boxes() {
   const history = useHistory();
+  const [applications, setApplications] = React.useState([]);
+
+  useEffect(async () => {
+    const res = await getApplications();
+    setApplications(res.data);
+  }, []);
 
   return (
     <div className={styles.deck}>
-      {box.map(({ name, icon, link }) => (
+      {applications.map(({
+        application_name: applicationName,
+        application_hash: applicationHash
+      }) => (
         <Button
           variant="light"
-          key={name}
+          key={applicationName}
           className={styles.box}
-          onClick={() => history.push(link)}
+          onClick={() => history.push(`/applications/${applicationHash}`)}
         >
-          <FontAwesomeIcon icon={icon} size="3x" />
-          <h3>{name}</h3>
+          <FontAwesomeIcon icon={faCalendarCheck} size="3x" />
+          <h3>{applicationName}</h3>
         </Button>
       ))}
     </div>
