@@ -16,25 +16,25 @@ class AssetsTest(TestCase):
         self.user = User.objects.get(username="test")
 
     def test_get_assets(self):
-        request = self.factory.get("/api/assets/")
+        request = self.factory.get("/api/asset/")
         force_authenticate(request, user=self.user)
         response = AssetList.as_view()(request)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
 
     def test_post_assets(self):
-        request = self.factory.post("/api/assets/", {"asset_name": "Delhi"})
+        request = self.factory.post("/api/asset/", {"asset_name": "Delhi"})
         force_authenticate(request, user=self.user)
         response = AssetList.as_view()(request)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data["asset_name"], "Delhi")
 
     def test_get_without_authentication(self):
-        request = self.factory.get("/api/assets/")
+        request = self.factory.get("/api/asset/")
         response = AssetList.as_view()(request)
         self.assertEqual(response.status_code, 401)
 
     def test_post_without_authentication(self):
-        request = self.factory.post("/api/assets/", {"asset_name": "Delhi"})
+        request = self.factory.post("/api/asset/", {"asset_name": "Delhi"})
         response = AssetList.as_view()(request)
         self.assertEqual(response.status_code, 401)
