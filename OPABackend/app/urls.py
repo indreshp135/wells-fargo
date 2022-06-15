@@ -1,7 +1,7 @@
 from django.urls import path
 from app.views.gauth import GoogleLogin
 from app.views.SOD import SODList
-from app.views.SOD import SODDelete
+from app.views.SOD import SODDelete, SODCreate
 from app.views.Asset import AssetList
 from app.views.Action import ActionList
 from app.views.SODRules import SODRulesList
@@ -14,7 +14,8 @@ app_name = "api"
 
 urlpatterns = [
     path("auth/google/", GoogleLogin.as_view(), name="google_login"),
-    path("SOD/", SODList.as_view(), name="SOD_list"),
+    path("SOD/", SODCreate.as_view(), name="sods"),
+    path("SOD/<str:application_hash>/", SODList.as_view(), name="sod_list"),
     path("SOD/<int:pk>/delete", SODDelete.as_view(), name="SOD_Delete"),
     path("action/", ActionList.as_view(), name="action_list"),
     path("asset/", AssetList.as_view(), name="asset_list"),

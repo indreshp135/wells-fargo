@@ -42,7 +42,7 @@ export const getActions = () => axios.get(ACTION_GET_URL, header);
 export const postAction = (data) => axios.post(ACTION_POST_URL, data, header);
 
 // SODs
-export const getSOD = () => axios.get(SOD_GET_URL, header);
+export const getSOD = (hash) => axios.get(`${SOD_GET_URL}${hash}`, header);
 export const postSOD = (data) => axios.post(SOD_POST_URL, data, header);
 export const deleteSOD = (id) => axios.delete(`${SOD_DELETE_URL + id}/delete`, header);
 

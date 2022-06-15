@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
 import styles from './styles.module.css';
 import {
   getActions, getAssets, getSODRules, postSODRules, deleteSODRules, geteachSODRules
@@ -12,14 +13,14 @@ import {
 export function SODUpdate() {
   const [Assets, setAssets] = React.useState([]);
   const [Actions, setActions] = React.useState([]);
-  const sodId = window.location.pathname.split('/')[3];
+  const { sodId } = useParams();
   const [exists, setExsists] = React.useState([]);
 
   async function updateSODRuleFunc(e) {
     const actionId = e.target.getAttribute('data-action');
     const assetId = e.target.getAttribute('data-asset');
-    const actionName = e.target.getAttribute('data-actionName');
-    const assetName = e.target.getAttribute('data-assetName');
+    const actionName = e.target.getAttribute('data-actionname');
+    const assetName = e.target.getAttribute('data-assetname');
     const query = `sodCode=${sodId}&actionId=${actionId}&assetId=${assetId}`;
     const resp = await getSODRules(query);
 
@@ -93,11 +94,11 @@ export function SODUpdate() {
         </Row>
 
         {Assets.map((asset) => (
-          <Row className="mb-5">
+          <Row className="mb-5" key={asset.asset_id}>
             <Col className={styles.sod}>{asset.asset_name}</Col>
             {Actions.map((action) => {
               const a = findChecked(asset.asset_id, action.action_id);
-              return <Col><input data-action={action.action_id} checked={a ? 'checked' : ''} data-actionName={action.action_name} data-asset={asset.asset_id} data-assetName={asset.asset_name} key={action.action_id} onChange={(e) => updateSODRuleFunc(e)} type="checkbox" /></Col>;
+              return <Col><input data-action={action.action_id} checked={a ? 'checked' : ''} data-actionname={action.action_name} data-asset={asset.asset_id} data-assetname={asset.asset_name} key={action.action_id} onChange={(e) => updateSODRuleFunc(e)} type="checkbox" /></Col>;
             })}
           </Row>
         ))}

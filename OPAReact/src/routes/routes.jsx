@@ -37,7 +37,7 @@ export const privateRoutes = [
     name: 'SODPageContainer'
   },
   {
-    url: '/applications/:hash/sod/update/:id',
+    url: '/applications/:hash/sod/update/:sodId',
     component: <SODUpdatePageContainer />,
     name: 'SODUpdateContainer'
   }

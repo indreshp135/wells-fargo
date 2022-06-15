@@ -68,12 +68,8 @@ class SODRules(models.Model):
     sod_rule_description = models.CharField(max_length=100)
     sod_rule_permission = models.BooleanField(default=True)
     sod_rule_created_date = models.DateTimeField(auto_now_add=True)
-    sod_rule_updated_date = models.DateTimeField(auto_now=True)
-    sod_rule_create_by = models.ForeignKey(
+    sod_rule_created_by = models.ForeignKey(
         "auth.User", related_name="sod_rule_create_by", on_delete=models.CASCADE
-    )
-    sod_rule_updated_by = models.ForeignKey(
-        "auth.User", related_name="sod_rule_updated_by", on_delete=models.CASCADE
     )
 
     def __str__(self):

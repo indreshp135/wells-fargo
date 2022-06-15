@@ -4,10 +4,6 @@ cd OPAReact
 npx lint-staged
 cd ../OPABackend
 pre-commit run --all-files
-cd ../FMBackend
-pre-commit run --all-files
-cd ../FMReact
-npx lint-staged
 
 if [[ $? -eq 0 ]]; then
    echo "Tests Passed"
