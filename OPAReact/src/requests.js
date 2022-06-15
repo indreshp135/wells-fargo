@@ -6,7 +6,14 @@ import {
   USER_URL,
   ASSETS_POST_URL,
   ACTION_GET_URL,
-  ACTION_POST_URL
+  ACTION_POST_URL,
+  SOD_GET_URL,
+  SOD_POST_URL,
+  SOD_DELETE_URL,
+  SODRULES_GET_URL,
+  SODRULES_POST_URL,
+  SODRULES_DELETE_URL,
+  EACH_SODRULES_GET_URL
 } from './urls';
 
 // public routes
@@ -31,3 +38,14 @@ export const postAsset = (data) => axios.post(ASSETS_POST_URL, data, header);
 // Actions
 export const getActions = () => axios.get(ACTION_GET_URL, header);
 export const postAction = (data) => axios.post(ACTION_POST_URL, data, header);
+
+// SODs
+export const getSOD = () => axios.get(SOD_GET_URL, header);
+export const postSOD = (data) => axios.post(SOD_POST_URL, data, header);
+export const deleteSOD = (id) => axios.delete(`${SOD_DELETE_URL + id}/delete`, header);
+
+// SOD Rules
+export const getSODRules = (query) => axios.get(`${SODRULES_GET_URL}?${query}`, header);
+export const postSODRules = (data) => axios.post(SODRULES_POST_URL, data, header);
+export const deleteSODRules = (id) => axios.delete(`${SODRULES_DELETE_URL + id}/delete`, header);
+export const geteachSODRules = (query) => axios.get(`${EACH_SODRULES_GET_URL}?${query}`, header);

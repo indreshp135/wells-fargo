@@ -7,3 +7,9 @@ class SODList(generics.ListCreateAPIView):
     queryset = SOD.objects.all()
     serializer_class = SODSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+
+class SODDelete(generics.DestroyAPIView):
+    queryset = SOD.objects.all()
+    serializer_class = SODSerializer
+    permission_classes = (permissions.IsAuthenticated,)
