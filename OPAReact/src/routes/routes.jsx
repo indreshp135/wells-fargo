@@ -4,6 +4,7 @@ import { AuthPageContainer } from '../containers/AuthPageContainer';
 import { AssetActionPageContainer } from '../containers/AssetActionPageContainer';
 import { SODPageContainer } from '../containers/SODPageContainer';
 import { SODUpdatePageContainer } from '../containers/SODUpdatePageContainer';
+import { ApplicationPageContainer } from '../containers/ApplicationPageContainer';
 
 export const publicRoutes = [
 
@@ -21,17 +22,22 @@ export const privateRoutes = [
     name: 'HomePageContainer'
   },
   {
-    url: '/actions-assets',
+    url: '/applications/:hash',
+    component: <ApplicationPageContainer />,
+    name: 'AssetActionPageContainer'
+  },
+  {
+    url: '/applications/:hash/actions-assets',
     component: <AssetActionPageContainer />,
     name: 'AssetActionPageContainer'
   },
   {
-    url: '/sod',
+    url: '/applications/:hash/sod',
     component: <SODPageContainer />,
     name: 'SODPageContainer'
   },
   {
-    url: '/sod/update/:id',
+    url: '/applications/:hash/sod/update/:id',
     component: <SODUpdatePageContainer />,
     name: 'SODUpdateContainer'
   }

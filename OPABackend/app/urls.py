@@ -8,6 +8,7 @@ from app.views.SODRules import SODRulesList
 from app.views.SODRules import SODRulesCreate
 from app.views.SODRules import SODRulesDelete
 from app.views.SODRules import SODRulesGet
+from app.views.Application import ApplicationList
 
 app_name = "api"
 
@@ -21,4 +22,5 @@ urlpatterns = [
     path("SODRules/sod/", SODRulesGet.as_view(), name="SODRules_list"),
     path("SODRules/create", SODRulesCreate.as_view(), name="SODRules_Create"),
     path("SODRules/<int:pk>/delete", SODRulesDelete.as_view(), name="SODRules_Delete"),
+    path("application/", ApplicationList.as_view(), name="application_list"),
 ]
