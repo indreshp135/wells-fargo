@@ -80,7 +80,7 @@ export function SODUpdate() {
       <Row className="mt-5 float-right">
 
         <Col className="text-center" lg={2}>
-          <h3>Edit SOD Rules</h3>
+          <h3>Edit SOD Rules </h3>
         </Col>
       </Row>
       <Container style={{ borderRadius: '15px' }} className="mx-auto border border-dark mt-3 pt-3 bg-white text-center">
