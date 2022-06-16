@@ -36,7 +36,6 @@ class ApplicationSerializer(serializers.ModelSerializer):
         )
 
     def to_representation(self, instance):
-        print(instance)
         ret = super(ApplicationSerializer, self).to_representation(instance)
         ret["application_hash"] = instance["application_hash"]
         return ret

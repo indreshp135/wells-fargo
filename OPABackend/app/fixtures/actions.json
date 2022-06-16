@@ -6,7 +6,8 @@
             "action_id": "1",
             "action_name": "READ",
             "created_at": "2020-01-01T00:00:00Z",
-            "created_by": 1
+            "created_by": 1,
+            "application_id": 1
         }
     },
     {
@@ -16,7 +17,8 @@
             "action_id": "2",
             "action_name": "WRITE",
             "created_at": "2020-01-01T00:00:00Z",
-            "created_by": 1
+            "created_by": 1,
+            "application_id": 1
         }
     }
 ]

@@ -33,7 +33,6 @@ class ExceptionsSerializer(serializers.ModelSerializer):
         if request and hasattr(request, "user"):
             user = request.user
 
-        print(self.validated_data)
         return ExceptionRules.objects.create(
             exception_rule_name=self.validated_data["exception_rule_name"],
             exception_rule_description=self.validated_data[
