@@ -30,3 +30,17 @@ class ActionSerializer(serializers.ModelSerializer):
             ),
             created_by=user,
         )
+
+    def validate(self, data):
+        if (data["application_id"] is None) or (data["application_id"] == ""):
+            raise serializers.ValidationError("Application is required")
+
+        if (
+            Application.objects.filter(
+                application_hash=data["application_id"]["application_hash"]
+            ).count()
+            == 0
+        ):
+            raise serializers.ValidationError("Application does not exist")
+
+        return data

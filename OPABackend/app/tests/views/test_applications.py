@@ -20,7 +20,7 @@ class ApplicationsTest(TestCase):
         force_authenticate(request, user=self.user)
         response = ApplicationList.as_view()(request)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data), 2)
 
     def test_post_applications(self):
         request = self.factory.post(
