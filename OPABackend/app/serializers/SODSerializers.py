@@ -15,8 +15,6 @@ class SODSerializer(serializers.ModelSerializer):
         if request and hasattr(request, "user"):
             user = request.user
 
-        print(self.validated_data["application_id"])
-
         return SOD.objects.create(
             sod_name=self.validated_data["sod_name"],
             application_id=Application.objects.get(
