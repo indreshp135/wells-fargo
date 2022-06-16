@@ -21,15 +21,26 @@ export function NavBar() {
     }
   };
   return (
-    <Navbar bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand onClick={() => history.push('/')}>
-          PBE Admin
-        </Navbar.Brand>
-        <Nav className="ms-auto">
-          {currentLocation.pathname !== '/auth' ? <Nav.Link onClick={logout}><Button variant="danger">Logout</Button></Nav.Link> : null}
-        </Nav>
-      </Container>
-    </Navbar>
+    <div style={{
+      paddingBottom: '4px',
+      backgroundColor: '#ffcd41'
+    }}
+    >
+      <Navbar
+        style={{
+          backgroundColor: '#d71e28'
+        }}
+        variant="dark"
+      >
+        <Container>
+          <Navbar.Brand onClick={() => history.push('/')}>
+            PBE Admin
+          </Navbar.Brand>
+          <Nav className="ms-auto">
+            {currentLocation.pathname !== '/auth' ? <Nav.Link onClick={logout}><Button variant="danger">Logout</Button></Nav.Link> : null}
+          </Nav>
+        </Container>
+      </Navbar>
+    </div>
   );
 }

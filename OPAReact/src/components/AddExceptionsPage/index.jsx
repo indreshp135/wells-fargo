@@ -85,7 +85,7 @@ export function AddExceptionsPage() {
         setSelectedUser('');
 
         toast.success('Exception Updated');
-        history.push('..');
+        history.push('../..');
       } else {
         toast.error('Exception Update Failed');
       }
@@ -93,7 +93,7 @@ export function AddExceptionsPage() {
   };
 
   return (
-    <Container className="m-3">
+    <Container className="my-3">
       <div className="text-center">
         <h1>
           {!exceptionId ? 'Add ' : 'Update '}
