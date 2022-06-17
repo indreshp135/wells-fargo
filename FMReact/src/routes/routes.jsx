@@ -2,6 +2,7 @@ import React from 'react';
 import { HomePageContainer } from '../containers/HomePageContainer';
 import { AuthPageContainer } from '../containers/AuthPageContainer';
 import { FolderPageContainer } from '../containers/FolderPageContainer';
+import { NotificationsPageContainer } from '../containers/NotificationsPageContainer';
 
 export const publicRoutes = [
 
@@ -22,5 +23,10 @@ export const privateRoutes = [
     url: '/folder/:name',
     component: <FolderPageContainer />,
     name: 'FolderPageContainer'
+  },
+  {
+    url: '/notifications',
+    component: <NotificationsPageContainer />,
+    name: 'NotificationsPageContainer'
   }
 ];

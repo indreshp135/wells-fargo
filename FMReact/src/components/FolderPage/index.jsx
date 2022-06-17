@@ -9,7 +9,9 @@ import {
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import Boxes from './Boxes';
-import { getFiles, deleteFile, createFile } from '../../requests';
+import {
+  getFiles, deleteFile, createFile, getFolders
+} from '../../requests';
 
 export function FolderPage() {
   const location = useParams();
@@ -19,11 +21,17 @@ export function FolderPage() {
   const handleShow = () => setShow(true);
 
   const [files, setFiles] = React.useState([]);
+  const [folders, setFolders] = React.useState([]);
 
   useEffect(async () => {
-    const response = await getFiles(location.name);
+    let response = await getFiles(location.name);
     if (response.status === 200) {
       setFiles(response.data);
+    }
+    response = await getFolders();
+    if (response.status === 200) {
+      const otherFolders = response.data.filter((folder) => folder.folder_slug !== location.name);
+      setFolders(otherFolders);
     }
   }, []);
 
@@ -67,17 +75,17 @@ export function FolderPage() {
         </div>
         <div className="text-center">
           <h1>{location.name.toUpperCase()}</h1>
-          <Boxes files={files} folder={location.name} deleteFile={delFile} />
+          <Boxes files={files} folders={folders} folder={location.name} deleteFile={delFile} />
         </div>
       </Container>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add new Folder</Modal.Title>
+          <Modal.Title>Add new File</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicName">
-              <Form.Label>Folder Name</Form.Label>
+              <Form.Label>Upload file</Form.Label>
               <Form.Control type="file" onChange={(e) => setFile(e.target.files[0])} />
             </Form.Group>
 
