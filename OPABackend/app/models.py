@@ -15,7 +15,7 @@ class Application(models.Model):
 class SOD(models.Model):
     sod_code = models.AutoField(primary_key=True)
     sod_name = models.CharField(max_length=100)
-    application_id = models.ForeignKey("Application", on_delete=models.CASCADE)
+    application_id = models.ForeignKey(Application, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         "auth.User", related_name="created_sods", on_delete=models.CASCADE
@@ -25,19 +25,10 @@ class SOD(models.Model):
         return self.sod_name
 
 
-class SODUser(models.Model):
-    sod_code = models.ForeignKey("SOD", on_delete=models.CASCADE)
-    user_id = models.ForeignKey("auth.User", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(
-        "auth.User", related_name="created_sod_users", on_delete=models.CASCADE
-    )
-    application_id = models.ForeignKey("Application", on_delete=models.CASCADE)
-
-
 class Asset(models.Model):
     asset_id = models.AutoField(primary_key=True)
     asset_name = models.CharField(max_length=100)
+    application_id = models.ForeignKey(Application, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         "auth.User", related_name="created_assets", on_delete=models.CASCADE
@@ -50,6 +41,9 @@ class Asset(models.Model):
 class Action(models.Model):
     action_id = models.AutoField(primary_key=True)
     action_name = models.CharField(max_length=100)
+    application_id = models.ForeignKey(
+        "Application", on_delete=models.CASCADE, null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         "auth.User", related_name="created_actions", on_delete=models.CASCADE
@@ -66,7 +60,7 @@ class SODRules(models.Model):
     action_id = models.ForeignKey(Action, on_delete=models.CASCADE)
     sod_rule_name = models.CharField(max_length=100)
     sod_rule_description = models.CharField(max_length=100)
-    sod_rule_permission = models.BooleanField(default=True)
+    sod_rule_approval_required = models.BooleanField(default=True)
     sod_rule_created_date = models.DateTimeField(auto_now_add=True)
     sod_rule_created_by = models.ForeignKey(
         "auth.User", related_name="sod_rule_create_by", on_delete=models.CASCADE
@@ -74,3 +68,23 @@ class SODRules(models.Model):
 
     def __str__(self):
         return self.sod_rule_name
+
+
+class ExceptionRules(models.Model):
+    exception_rule_id = models.AutoField(primary_key=True)
+    exception_rule_name = models.CharField(max_length=100)
+    exception_rule_description = models.CharField(max_length=100)
+    asset_id = models.ForeignKey(Asset, on_delete=models.CASCADE)
+    action_id = models.ForeignKey(Action, on_delete=models.CASCADE)
+    application_id = models.ForeignKey(Application, on_delete=models.CASCADE)
+    exception_rule_approval_required = models.BooleanField(default=True)
+    exception_rule_created_date = models.DateTimeField(auto_now_add=True)
+    exception_rule_created_by = models.ForeignKey(
+        "auth.User", related_name="exception_rule_create_by", on_delete=models.CASCADE
+    )
+    exception_for = models.ForeignKey(
+        "auth.User", on_delete=models.CASCADE, related_name="exception_for"
+    )
+
+    def __str__(self):
+        return self.exception_rule_name

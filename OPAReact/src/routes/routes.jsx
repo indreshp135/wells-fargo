@@ -5,6 +5,8 @@ import { AssetActionPageContainer } from '../containers/AssetActionPageContainer
 import { SODPageContainer } from '../containers/SODPageContainer';
 import { SODUpdatePageContainer } from '../containers/SODUpdatePageContainer';
 import { ApplicationPageContainer } from '../containers/ApplicationPageContainer';
+import { ExceptionsPageContainer } from '../containers/ExceptionsPageContainer';
+import { AddExceptionsPageContainer } from '../containers/AddExceptionsPageContainer';
 
 export const publicRoutes = [
 
@@ -40,5 +42,20 @@ export const privateRoutes = [
     url: '/applications/:hash/sod/update/:sodId',
     component: <SODUpdatePageContainer />,
     name: 'SODUpdateContainer'
+  },
+  {
+    url: '/applications/:hash/exception',
+    component: <ExceptionsPageContainer />,
+    name: 'ExceptionsPageContainer'
+  },
+  {
+    url: '/applications/:hash/exception/add',
+    component: <AddExceptionsPageContainer />,
+    name: 'AddExceptionPageContainer'
+  },
+  {
+    url: '/applications/:hash/exception/update/:exceptionId',
+    component: <AddExceptionsPageContainer />,
+    name: 'UpdateExceptionPageContainer'
   }
 ];
