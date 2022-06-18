@@ -13,6 +13,7 @@ class SODRulesSerializer(serializers.ModelSerializer):
             "sod_rule_name",
             "sod_rule_description",
             "sod_rule_created_date",
+            "sod_rule_approval_required",
         )
 
     def save(self, **kwargs):

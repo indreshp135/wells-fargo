@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  Container, Col, Row
+  Container, Col, Row, Modal, Button
 } from 'react-bootstrap';
 
 import { toast } from 'react-toastify';
@@ -10,17 +10,46 @@ import {
   getActions, getAssets, getSODRules, postSODRules, deleteSODRules, geteachSODRules
 } from '../../requests';
 
+const curEle = [];
 export function SODUpdate() {
+  const { hash } = useParams();
+
   const [Assets, setAssets] = React.useState([]);
   const [Actions, setActions] = React.useState([]);
   const { sodId } = useParams();
+  const [show, setShow] = React.useState(false);
   const [exists, setExsists] = React.useState([]);
 
-  async function updateSODRuleFunc(e) {
-    const actionId = e.target.getAttribute('data-action');
-    const assetId = e.target.getAttribute('data-asset');
-    const actionName = e.target.getAttribute('data-actionname');
-    const assetName = e.target.getAttribute('data-assetname');
+  const handleClose = () => {
+    setShow(false);
+
+    // Also pop array contents if the modal is closed without selecting anything
+    if (curEle.length !== 0) {
+      while (curEle.length !== 0) curEle.pop();
+    }
+  };
+  const handleShow = () => setShow(true);
+  function findChecked(assetId, actionId) {
+    const arr = exists.filter((o) => ((o.asset_id === assetId) && (o.action_id === actionId)));
+
+    if (arr.length === 0) return false;
+    return true;
+  }
+  function findChecked2(assetId, actionId) {
+    const arr = exists.filter((o) => (
+      o.asset_id.toString() === assetId) && (o.action_id.toString() === actionId));
+
+    if (arr.length === 0) return false;
+    return true;
+  }
+  async function createRule(perm) {
+    // Process array and pop contents
+    const actionId = curEle[0].action_id;
+    const assetId = curEle[0].asset_id;
+    const actionName = curEle[0].action_name;
+    const assetName = curEle[0].asset_name;
+
+    curEle.pop();
     const query = `sodCode=${sodId}&actionId=${actionId}&assetId=${assetId}`;
     const resp = await getSODRules(query);
 
@@ -30,7 +59,7 @@ export function SODUpdate() {
         const response = await postSODRules(
 
           {
-            action_id: actionId, asset_id: assetId, sod_code: sodId, sod_rule_name: actionName, sod_rule_description: `${actionName} ${assetName}`, sod_rule_permission: true
+            action_id: actionId, asset_id: assetId, sod_code: sodId, sod_rule_name: actionName, sod_rule_description: `${actionName} ${assetName}`, sod_rule_approval_required: perm
           }
 
         );
@@ -54,18 +83,28 @@ export function SODUpdate() {
     if (res.status === 200) {
       setExsists(res.data);
     }
+    handleClose();
   }
-  function findChecked(assetId, actionId) {
-    const arr = exists.filter((o) => ((o.asset_id === assetId) && (o.action_id === actionId)));
-    if (arr.length === 0) return false;
-    return true;
+  async function updateSODRuleFunc(e) {
+    const actionId = e.target.getAttribute('data-action');
+    const assetId = e.target.getAttribute('data-asset');
+    const actionName = e.target.getAttribute('data-actionname');
+    const assetName = e.target.getAttribute('data-assetname');
+    const isChecked = findChecked2(assetId, actionId);
+    curEle.push({
+      action_id: actionId, asset_id: assetId, action_name: actionName, asset_name: assetName
+    });
+    // Modal for permission
+    // isChecked finds if checkbox is already checked. Need not open modal if checked already
+    if (!isChecked) { handleShow(); } else createRule(true);
   }
+
   useEffect(async () => {
-    const resAsset = await getAssets();
+    const resAsset = await getAssets(hash);
     if (resAsset.status === 200) {
       setAssets(resAsset.data);
     }
-    const resAction = await getActions();
+    const resAction = await getActions(hash);
     if (resAction.status === 200) {
       setActions(resAction.data);
     }
@@ -104,6 +143,19 @@ export function SODUpdate() {
         ))}
 
       </Container>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Require permission for access?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="text-center">
+            <Button className="mx-5" variant="success" onClick={() => createRule(true)}>Yes</Button>
+            <Button className="mx-5" variant="danger" onClick={() => createRule(false)}>No</Button>
+          </div>
+
+        </Modal.Body>
+        <Modal.Footer />
+      </Modal>
     </Container>
 
   );
