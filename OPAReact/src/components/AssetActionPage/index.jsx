@@ -58,6 +58,12 @@ export function AssetActionPage() {
                 placeholder="Asset Name"
                 aria-label="Asset Name"
                 onChange={(e) => setAsset(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    addAsset();
+                    e.target.value = '';
+                  }
+                }}
               />
               <Button variant="warning" onClick={addAsset}>Add</Button>
             </InputGroup>
@@ -76,6 +82,12 @@ export function AssetActionPage() {
                 placeholder="Action Name"
                 aria-label="Action Name"
                 onChange={(e) => setAction(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    addAction();
+                    e.target.value = '';
+                  }
+                }}
               />
               <Button variant="warning" onClick={addAction}>Add</Button>
             </InputGroup>
