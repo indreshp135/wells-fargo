@@ -20,7 +20,10 @@ import {
   EXCEPTIONS_POST_URL,
   EXCEPTIONS_DELETE_URL,
   EXCEPTIONS_RETRIVE_URL,
-  USERS_GET_URL
+  USERS_GET_URL,
+  USER_EXISTS,
+  CREATE_SODUSER_URL
+
 } from './urls';
 
 // public routes
@@ -70,3 +73,7 @@ export const postApplication = (data) => axios.post(APPLICATION_POST_URL, data, 
 
 // Users
 export const getUsers = () => axios.get(USERS_GET_URL, header);
+export const getUserExist = (query) => axios.get(`${USER_EXISTS}?${query}`, header);
+
+// Sod User
+export const postSodUser = (data) => axios.post(CREATE_SODUSER_URL, data, header);

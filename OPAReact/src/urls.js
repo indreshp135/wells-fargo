@@ -37,6 +37,10 @@ export const EXCEPTIONS_RETRIVE_URL = `${BACKEND_URL}/api/exceptions/`;
 export const EXCEPTIONS_UPDATE_URL = `${BACKEND_URL}/api/exceptions/`;
 
 // Users
-export const USERS_GET_URL = `${BACKEND_URL}/api/users/`;
+export const USERS_GET_URL = `${BACKEND_URL}/api/users`;
+export const USER_EXISTS = `${BACKEND_URL}/api/users/exist`;
+
+// SOD User
+export const CREATE_SODUSER_URL = `${BACKEND_URL}/api/sodUser/create/`;
 
 export const GAUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${CALLBACK_URL}&prompt=consent&response_type=token&client_id=${CLIENT_ID}&scope=openid%20email%20profile`;
