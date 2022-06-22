@@ -88,3 +88,25 @@ class ExceptionRules(models.Model):
 
     def __str__(self):
         return self.exception_rule_name
+
+
+class Users(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100, unique=True)
+    location = models.CharField(max_length=100)
+    manager = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.email
+
+
+class SodUser(models.Model):
+    soduser_id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+    sod_code = models.ForeignKey(SOD, on_delete=models.CASCADE)
+    application_id = models.ForeignKey(Application, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.sod_code)

@@ -7,6 +7,7 @@ import { SODUpdatePageContainer } from '../containers/SODUpdatePageContainer';
 import { ApplicationPageContainer } from '../containers/ApplicationPageContainer';
 import { ExceptionsPageContainer } from '../containers/ExceptionsPageContainer';
 import { AddExceptionsPageContainer } from '../containers/AddExceptionsPageContainer';
+import { AddUsersContainer } from '../containers/AddUsersContainer';
 
 export const publicRoutes = [
 
@@ -56,6 +57,11 @@ export const privateRoutes = [
   {
     url: '/applications/:hash/exception/update/:exceptionId',
     component: <AddExceptionsPageContainer />,
+    name: 'UpdateExceptionPageContainer'
+  },
+  {
+    url: '/applications/:hash/addUser',
+    component: <AddUsersContainer />,
     name: 'UpdateExceptionPageContainer'
   }
 ];
