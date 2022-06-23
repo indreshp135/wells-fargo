@@ -43,7 +43,7 @@ export function Homepage() {
   return (
     <>
       {' '}
-      <Container className="m-3">
+      <Container className="my-3">
         <div className="d-flex justify-content-end">
           <Button variant="outline-warning" onClick={handleShow}>
             <FontAwesomeIcon icon={faPlus} />
@@ -52,6 +52,7 @@ export function Homepage() {
           </Button>
         </div>
         <div className="text-center">
+          <h1>List of Applications</h1>
           <Boxes applications={applications} />
         </div>
       </Container>

@@ -1,4 +1,4 @@
-import uuid
+from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.template.defaultfilters import slugify
 
@@ -34,3 +34,29 @@ class File(models.Model):
     def delete(self, *args, **kwargs):
         self.file.delete()
         super(File, self).delete(*args, **kwargs)
+
+
+class Notification(models.Model):
+    notification_id = models.AutoField(primary_key=True)
+
+    notification_user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    requested_user = models.ForeignKey(
+        "auth.User", on_delete=models.CASCADE, related_name="requested_user"
+    )
+    file = models.ForeignKey(File, on_delete=models.CASCADE)
+    destination_folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
+
+    class NotificationType(models.TextChoices):
+        REQUEST_DIRECT_MANAGER = "RDM", _("Request Direct Manager")
+        REQUEST_LOCATION_MANAGER = "RLM", _("Request Location Manager")
+
+    notification_type = models.CharField(
+        max_length=3,
+        choices=NotificationType.choices,
+        default=NotificationType.REQUEST_DIRECT_MANAGER,
+    )
+
+    notification_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.notification_id)

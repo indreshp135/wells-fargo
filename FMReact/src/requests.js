@@ -4,7 +4,12 @@ import {
   LOGOUT_URL,
   USER_URL,
   FOLDERS_URL,
-  FILES_URL
+  FILES_URL,
+  TRANSFER_PERMIT_URL,
+  TRANSFER_PROCEED_URL,
+  TRANSFER_REQUEST_URL,
+  GET_NOTIFICATIONS_URL
+
 } from './urls';
 
 // public routes
@@ -35,3 +40,11 @@ export const createFile = (data) => axios.post(FILES_URL, data, {
   }
 });
 export const deleteFile = (id) => axios.delete(`${FILES_URL}${id}/`, header);
+
+// transfers
+export const transferRequest = (data) => axios.post(TRANSFER_REQUEST_URL, data, header);
+export const transferProceed = (data) => axios.post(TRANSFER_PROCEED_URL, data, header);
+export const transferPermit = (data) => axios.post(TRANSFER_PERMIT_URL, data, header);
+
+// notifications
+export const getNotifications = () => axios.get(GET_NOTIFICATIONS_URL, header);

@@ -21,7 +21,7 @@ export default function Boxes({ applications }) {
           variant="light"
           key={applicationName}
           className={styles.box}
-          onClick={() => history.push(`/applications/${applicationHash}`)}
+          onClick={() => history.push(`/applications/${applicationHash}/`)}
         >
           <FontAwesomeIcon icon={faCalendarCheck} size="3x" />
           <h3>{applicationName}</h3>

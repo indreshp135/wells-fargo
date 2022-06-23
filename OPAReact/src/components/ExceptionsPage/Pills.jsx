@@ -10,7 +10,7 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 export function Pills({ exceptions, deleteException }) {
   const history = useHistory();
   const editPageRedirect = (id) => {
-    history.push(`update/${id}`);
+    history.push(`update/${id}/`);
   };
   return (
     <div>
@@ -20,6 +20,7 @@ export function Pills({ exceptions, deleteException }) {
         exception_rule_id: exceptionRuleId
       }) => (
         <ListGroup.Item
+          key={exceptionRuleId}
           as="li"
           className="d-flex justify-content-between align-items-start"
         >

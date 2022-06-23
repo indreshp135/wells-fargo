@@ -10,6 +10,7 @@ import { publicRoutes, privateRoutes } from './routes';
 import { ScrollToTopController } from '../components/ScrollToTopController';
 import { NavBar } from '../components/NavBar';
 import { getUserDetails } from '../requests';
+import { BackButton } from '../components/BackButton';
 // import { Footer } from "../components/Footer";
 // import { Page404 } from "../components/Page404";
 
@@ -30,6 +31,7 @@ export function Routes() {
         draggable
         pauseOnHover
       />
+      <BackButton />
       {/* <Footer /> */}
     </Router>
   );

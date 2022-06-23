@@ -92,7 +92,7 @@ export function Rearranger() {
                         {item.content}
                       </span>
                       <div>
-                        <Button className="mx-2" variant="outline-warning" onClick={() => history.push(`update/${item.id}`)}>
+                        <Button className="mx-2" variant="outline-warning" onClick={() => history.push(`update/${item.id}/`)}>
                           Update
                         </Button>
                         <Button className="mx-2" variant="outline-danger" onClick={() => deleteItem(item.id)}>

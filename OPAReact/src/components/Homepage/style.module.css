@@ -21,6 +21,7 @@
 }
 
 .box h3 {
+  word-break: break-all;
   margin: 10px;
   font-size: 1rem;
   font-weight: 400;
