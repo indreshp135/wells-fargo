@@ -1,0 +1,34 @@
+[
+    {
+        "model": "app.ExceptionRules",
+        "pk":1,
+        "fields": {
+            "exception_rule_id": 1,
+            "exception_rule_name": "Exception Rule 1",
+            "exception_rule_description": "Exception Rule 1 Description",
+            "asset_id": 1,
+            "action_id": 1,
+            "application_id": 1,
+            "exception_rule_created_by": 1,
+            "exception_rule_approval_required": 0,
+            "exception_rule_created_date": "2020-01-01T00:00:00Z",
+            "exception_for": 1
+        }
+    },
+    {
+        "model": "app.ExceptionRules",
+        "pk":2,
+        "fields": {
+            "exception_rule_id": 2,
+            "exception_rule_name": "Exception Rule 2",
+            "exception_rule_description": "Exception Rule 2 Description",
+            "asset_id": 2,
+            "action_id": 2,
+            "application_id": 1,
+            "exception_rule_approval_required": 0,
+            "exception_rule_created_by": 1,
+            "exception_rule_created_date": "2020-01-01T00:00:00Z",
+            "exception_for": 1
+        }
+    }
+]

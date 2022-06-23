@@ -1,21 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCalendarCheck
 } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import styles from './style.module.css';
-import { getApplications } from '../../requests';
 
-export default function Boxes() {
+export default function Boxes({ applications }) {
   const history = useHistory();
-  const [applications, setApplications] = React.useState([]);
-
-  useEffect(async () => {
-    const res = await getApplications();
-    setApplications(res.data);
-  }, []);
 
   return (
     <div className={styles.deck}>
@@ -27,7 +21,7 @@ export default function Boxes() {
           variant="light"
           key={applicationName}
           className={styles.box}
-          onClick={() => history.push(`/applications/${applicationHash}`)}
+          onClick={() => history.push(`/applications/${applicationHash}/`)}
         >
           <FontAwesomeIcon icon={faCalendarCheck} size="3x" />
           <h3>{applicationName}</h3>
@@ -36,3 +30,10 @@ export default function Boxes() {
     </div>
   );
 }
+
+Boxes.propTypes = {
+  applications: PropTypes.arrayOf(PropTypes.shape({
+    application_name: PropTypes.string,
+    application_hash: PropTypes.string
+  })).isRequired
+};

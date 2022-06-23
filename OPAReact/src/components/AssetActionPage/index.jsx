@@ -3,11 +3,13 @@ import {
   Container, Col, Row, InputGroup, FormControl, Button, ListGroup
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 import {
   getAssets, getActions, postAction, postAsset
 } from '../../requests';
 
 export function AssetActionPage() {
+  const { hash } = useParams();
   const [Assets, setAssets] = React.useState([]);
   const [Actions, setActions] = React.useState([]);
 
@@ -15,18 +17,18 @@ export function AssetActionPage() {
   const [Action, setAction] = React.useState('');
 
   useEffect(async () => {
-    const resAsset = await getAssets();
+    const resAsset = await getAssets(hash);
     if (resAsset.status === 200) {
       setAssets(resAsset.data);
     }
-    const resAction = await getActions();
+    const resAction = await getActions(hash);
     if (resAction.status === 200) {
       setActions(resAction.data);
     }
   }, []);
 
   const addAsset = async () => {
-    const res = await postAsset({ asset_name: Asset });
+    const res = await postAsset({ asset_name: Asset, application_hash: hash });
     if (res.status === 201) {
       setAssets([...Assets, res.data]);
       toast.success('New Asset Added');
@@ -36,7 +38,7 @@ export function AssetActionPage() {
   };
 
   const addAction = async () => {
-    const res = await postAction({ action_name: Action });
+    const res = await postAction({ action_name: Action, application_hash: hash });
     if (res.status === 201) {
       setActions([...Actions, res.data]);
       toast.success('New Action Added');
@@ -56,6 +58,12 @@ export function AssetActionPage() {
                 placeholder="Asset Name"
                 aria-label="Asset Name"
                 onChange={(e) => setAsset(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    addAsset();
+                    e.target.value = '';
+                  }
+                }}
               />
               <Button variant="warning" onClick={addAsset}>Add</Button>
             </InputGroup>
@@ -74,6 +82,12 @@ export function AssetActionPage() {
                 placeholder="Action Name"
                 aria-label="Action Name"
                 onChange={(e) => setAction(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    addAction();
+                    e.target.value = '';
+                  }
+                }}
               />
               <Button variant="warning" onClick={addAction}>Add</Button>
             </InputGroup>

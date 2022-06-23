@@ -15,7 +15,7 @@ import Boxes from './Boxes';
 export function ApplicationPage() {
   const { hash } = useParams();
   return (
-    <Container className="m-3">
+    <Container className="my-3">
       <div className="d-flex justify-content-end">
         <CopyToClipboard text={hash} onCopy={() => toast.success('Application Hash copied to Clipboard')}>
           <Button variant="success">
@@ -26,7 +26,7 @@ export function ApplicationPage() {
         </CopyToClipboard>
       </div>
       <div className="text-center">
-        <Boxes hash={hash} />
+        <Boxes />
       </div>
     </Container>
   );

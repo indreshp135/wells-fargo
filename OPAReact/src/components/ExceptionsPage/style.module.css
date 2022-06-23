@@ -1,0 +1,4 @@
+.pills {
+  display: flex;
+  flex-direction: row;
+}

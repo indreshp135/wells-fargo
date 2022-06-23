@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   faClone,
   faPlus
@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Boxes from './Boxes';
-import { postApplication } from '../../requests';
+import { postApplication, getApplications } from '../../requests';
 
 export function Homepage() {
   const [show, setShow] = React.useState(false);
@@ -21,6 +21,13 @@ export function Homepage() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [applications, setApplications] = React.useState([]);
+
+  useEffect(async () => {
+    const res = await getApplications();
+    setApplications(res.data);
+  }, []);
+
   const submitApplication = async () => {
     setshowClip(true);
     const data = {
@@ -29,13 +36,14 @@ export function Homepage() {
     };
     const res = await postApplication(data);
     if (res.status === 201) {
+      setApplications([...applications, res.data]);
       setApplicationHash(res.data.application_hash);
     }
   };
   return (
     <>
       {' '}
-      <Container className="m-3">
+      <Container className="my-3">
         <div className="d-flex justify-content-end">
           <Button variant="outline-warning" onClick={handleShow}>
             <FontAwesomeIcon icon={faPlus} />
@@ -44,7 +52,8 @@ export function Homepage() {
           </Button>
         </div>
         <div className="text-center">
-          <Boxes />
+          <h1>List of Applications</h1>
+          <Boxes applications={applications} />
         </div>
       </Container>
       <Modal show={show} onHide={handleClose}>

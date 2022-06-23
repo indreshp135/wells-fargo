@@ -170,3 +170,6 @@ REST_FRAMEWORK = {
 }
 
 SITE_ID = int(os.environ.get("SITE_ID"))
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+MEDIA_URL = "/uploads/"
