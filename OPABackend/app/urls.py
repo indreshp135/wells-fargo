@@ -14,8 +14,9 @@ from app.views.Exceptions import (
     ExceptionsList,
     ExceptionsDeleteRetrive,
 )
-from app.views.Users import UserList, UserExists
+from app.views.Users import UserList
 from app.views.SODUser import SODUserCreate
+from app.views.Manager import get_manager, get_manager_from_location
 
 app_name = "api"
 
@@ -45,6 +46,7 @@ urlpatterns = [
         name="exceptions_delete",
     ),
     path("users/", UserList.as_view(), name="users_list"),
-    path("users/exist", UserExists.as_view(), name="user_exist"),
     path("sodUser/create/", SODUserCreate.as_view(), name="create_soduser"),
+    path("users/manager/", get_manager, name="manager"),
+    path("users/manager/location/", get_manager_from_location, name="manager"),
 ]

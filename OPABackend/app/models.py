@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from django.db import models
 
 
@@ -10,6 +11,9 @@ class Application(models.Model):
     created_by = models.ForeignKey(
         "auth.User", related_name="created_applications", on_delete=models.CASCADE
     )
+
+    def __str__(self):
+        return self.application_name
 
 
 class SOD(models.Model):
@@ -69,6 +73,9 @@ class SODRules(models.Model):
     def __str__(self):
         return self.sod_rule_name
 
+    class Meta:
+        verbose_name = "SOD Rule"
+
 
 class ExceptionRules(models.Model):
     exception_rule_id = models.AutoField(primary_key=True)
@@ -77,7 +84,17 @@ class ExceptionRules(models.Model):
     asset_id = models.ForeignKey(Asset, on_delete=models.CASCADE)
     action_id = models.ForeignKey(Action, on_delete=models.CASCADE)
     application_id = models.ForeignKey(Application, on_delete=models.CASCADE)
-    exception_rule_approval_required = models.BooleanField(default=True)
+
+    class approval_types(models.TextChoices):
+        PERMISSION_GRANTED = "PG", _("Permission Granted")
+        PERMISSION_DENIED = "PD", _("Permission Denied")
+        APRROVAL_REQUIRED = "AR", _("Approval Required")
+
+    exception_grand_type = models.CharField(
+        max_length=2,
+        choices=approval_types.choices,
+        default=approval_types.PERMISSION_GRANTED,
+    )
     exception_rule_created_date = models.DateTimeField(auto_now_add=True)
     exception_rule_created_by = models.ForeignKey(
         "auth.User", related_name="exception_rule_create_by", on_delete=models.CASCADE
@@ -89,6 +106,9 @@ class ExceptionRules(models.Model):
     def __str__(self):
         return self.exception_rule_name
 
+    class Meta:
+        verbose_name = "Exception Rule"
+
 
 class Users(models.Model):
     user_id = models.AutoField(primary_key=True)
@@ -97,9 +117,19 @@ class Users(models.Model):
     email = models.EmailField(max_length=100, unique=True)
     location = models.CharField(max_length=100)
     manager = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
+    is_manager = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if self.is_manager:
+            self.manager = self
+        self.location = self.location.upper()
+        super(Users, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.email
+
+    class Meta:
+        verbose_name = "User"
 
 
 class SodUser(models.Model):
@@ -109,4 +139,4 @@ class SodUser(models.Model):
     application_id = models.ForeignKey(Application, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.sod_code)
+        return str(self.sod_code) + "-" + str(self.user_id)

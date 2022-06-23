@@ -38,7 +38,7 @@ export const EXCEPTIONS_UPDATE_URL = `${BACKEND_URL}/api/exceptions/`;
 
 // Users
 export const USERS_GET_URL = `${BACKEND_URL}/api/users`;
-export const USER_EXISTS = `${BACKEND_URL}/api/users/exist`;
+export const USER_EXISTS = `${BACKEND_URL}/api/users`;
 
 // SOD User
 export const CREATE_SODUSER_URL = `${BACKEND_URL}/api/sodUser/create/`;

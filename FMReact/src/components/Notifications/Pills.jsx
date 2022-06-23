@@ -56,7 +56,7 @@ export function Pills() {
           className="d-flex justify-content-between align-items-start"
         >
           <div className="ms-2 me-auto">
-            <div className="fw-bold">{notificationMessage}</div>
+            <div>{notificationMessage}</div>
           </div>
           <Badge style={{ marginRight: '10px' }} bg="primary" pill>
             <FontAwesomeIcon style={{ cursor: 'pointer' }} onClick={() => { mark(notificationId, notificationType, true); }} size="lg" icon={faCheck} />
