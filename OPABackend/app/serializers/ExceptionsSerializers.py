@@ -16,7 +16,7 @@ class ExceptionsSerializer(serializers.ModelSerializer):
             "asset_id",
             "action_id",
             "application_hash",
-            "exception_rule_approval_required",
+            "exception_grand_type",
             "exception_rule_created_date",
             "exception_rule_created_by",
             "exception_for_email",
@@ -51,6 +51,7 @@ class ExceptionsSerializer(serializers.ModelSerializer):
                 "exception_for": User.objects.get(
                     email=self.validated_data["exception_for"]["email"]
                 ),
+                "exception_grand_type": self.validated_data["exception_grand_type"],
             },
         )
 

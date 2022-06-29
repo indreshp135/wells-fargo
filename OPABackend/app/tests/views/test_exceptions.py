@@ -46,6 +46,7 @@ class ApplicationsTest(TestCase):
             "application_id": 1,
             "application_hash": self.application_hash,
             "exception_for_email": "test@gmail.com",
+            "exception_grand_type": "PG",
         }
         request = self.factory.post(self.post_exceptions_url, data)
         force_authenticate(request, user=self.user)
@@ -61,6 +62,7 @@ class ApplicationsTest(TestCase):
             "application_id": 1,
             "application_hash": self.application_hash,
             "exception_for_email": "test@gmail.com",
+            "exception_grand_type": "PG",
         }
         request = self.factory.post(self.post_exceptions_url, data)
         force_authenticate(request, user=self.user)
@@ -76,6 +78,7 @@ class ApplicationsTest(TestCase):
             "application_id": 1,
             "application_hash": self.application_hash,
             "exception_for_email": "test@gmail.com",
+            "exception_grand_type": "PG",
         }
         request = self.factory.post(self.post_exceptions_url, data)
         force_authenticate(request, user=self.user)
@@ -94,6 +97,7 @@ class ApplicationsTest(TestCase):
             "application_id": 1,
             "application_hash": self.application_hash,
             "exception_for_email": "test@gmail.com",
+            "exception_grand_type": "PG",
         }
         request = self.factory.post(self.post_exceptions_url, data)
         force_authenticate(request, user=self.user)
@@ -109,6 +113,7 @@ class ApplicationsTest(TestCase):
             "application_id": 1,
             "application_hash": self.application_hash,
             "exception_for_email": "test@gmail.com",
+            "exception_grand_type": "PG",
         }
         request = self.factory.post(self.post_exceptions_url, data)
         force_authenticate(request, user=self.user)
@@ -135,6 +140,7 @@ class ApplicationsTest(TestCase):
             "application_id": 1,
             "application_hash": self.application_hash,
             "exception_for_email": "test@gmail.com",
+            "exception_grand_type": "PG",
         }
         request = self.factory.put(self.change_exceptions_url, data)
         force_authenticate(request, user=self.user)
@@ -155,6 +161,7 @@ class ApplicationsTest(TestCase):
             "application_id": 1,
             "application_hash": self.application_hash,
             "exception_for_email": "test@gmail.com",
+            "exception_grand_type": "PG",
         }
         request = self.factory.put(self.change_exceptions_url, data)
         force_authenticate(request, user=self.user)
@@ -174,6 +181,7 @@ class ApplicationsTest(TestCase):
             "application_id": 1,
             "application_hash": self.application_hash,
             "exception_for_email": "test@gmail.com",
+            "exception_grand_type": "PG",
         }
         request = self.factory.put(self.change_exceptions_url, data)
         force_authenticate(request, user=self.user)
