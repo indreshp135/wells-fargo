@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+
+  pbefrontend:
+    container_name: PBE-react-prod
+    build:
+      context: ./OPAReact
+      dockerfile: Dockerfile
+    ports:
+      - '1337:80'
+
+  fmfrontend:
+    container_name: FM-react-prod
+    build:
+      context: ./FMReact
+      dockerfile: Dockerfile
+    ports:
+      - '1338:80'
+
+  pbebackend:
+    container_name: PBE-django-prod
+    build:
+      context: ./OPABackend
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+
+  fmbackend:
+    container_name: FM-django-prod
+    build:
+      context: ./FMBackend
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8001
+    ports:
+      - "8001:8001"

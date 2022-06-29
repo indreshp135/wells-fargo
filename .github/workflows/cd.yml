@@ -1,0 +1,139 @@
+name: Deploy to production
+
+on:
+  push:
+    branches:
+      - "prod"
+
+jobs:
+  OPAReact:
+    runs-on: ubuntu-latest
+
+    name: OPAReact
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ./OPAReact/node_modules
+          key: modules-${{ hashFiles('./OPAReact/package.json') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+
+        run: |
+          cd $GITHUB_WORKSPACE/OPAReact
+          npm install
+
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE/OPAReact
+          cp src/config.example.js src/config.js
+          npm run lint
+          npm run build
+
+
+  OPABackend:
+
+    runs-on: ubuntu-latest
+
+    name: OPABackend
+
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Dependencies
+      run: |
+        cd $GITHUB_WORKSPACE/OPABackend
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Tests
+      run: |
+        cd $GITHUB_WORKSPACE/OPABackend
+        cp .env.example .env
+        python manage.py test
+
+
+  FMReact:
+    runs-on: ubuntu-latest
+
+    name: FMReact
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ./FMReact/node_modules
+          key: modules-${{ hashFiles('./FMReact/package.json') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+
+        run: |
+          cd $GITHUB_WORKSPACE/FMReact
+          npm install
+
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE/FMReact
+          cp src/config.example.js src/config.js
+          npm run lint
+          npm run build
+
+
+  FMBackend:
+    runs-on: ubuntu-latest
+
+    name: FMBackend
+
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Dependencies
+      run: |
+        cd $GITHUB_WORKSPACE/FMBackend
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+  deploy:
+    name: deploy
+    needs: [OPAReact, OPABackend, FMReact, FMBackend]
+    runs-on: ubuntu-latest
+    steps:
+    - name: deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: shell.xshellz.com
+        port: 22
+        username: indreshp
+        password: ${{ secrets.SSH_KEY }}
+        script: |
+          cd wells-fargo
+          git checkout .
+          git fetch origin prod
+          git reset --hard origin/prod
+          # sudo docker-compose down
+          # sudo docker-compose up --build -d
