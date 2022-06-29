@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models import ExceptionRules, Application, Asset, Action
+from app.models import ExceptionRules, Application, Asset, Action, Users
 from django.contrib.auth.models import User
 
 
@@ -48,7 +48,7 @@ class ExceptionsSerializer(serializers.ModelSerializer):
                     ]
                 ),
                 "exception_rule_created_by": user,
-                "exception_for": User.objects.get(
+                "exception_for": Users.objects.get(
                     email=self.validated_data["exception_for"]["email"]
                 ),
                 "exception_grand_type": self.validated_data["exception_grand_type"],

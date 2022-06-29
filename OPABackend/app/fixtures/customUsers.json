@@ -1,0 +1,14 @@
+[
+    {
+        "model": "app.Users",
+        "pk": 1,
+        "fields": {
+            "user_id": 1,
+            "first_name": "test",
+            "last_name": "",
+            "email": "test@gmail.com",
+            "location": "Bangalore",
+            "is_manager": false
+        }
+    }
+]

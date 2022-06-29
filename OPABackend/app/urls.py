@@ -17,6 +17,7 @@ from app.views.Exceptions import (
 from app.views.Users import UserList
 from app.views.SODUser import SODUserCreate
 from app.views.Manager import get_manager, get_manager_from_location
+from app.views.Authorize import AuthorizeRequest
 
 app_name = "api"
 
@@ -34,6 +35,7 @@ urlpatterns = [
     path("SODRules/create", SODRulesCreate.as_view(), name="SODRules_Create"),
     path("SODRules/<int:pk>/delete", SODRulesDelete.as_view(), name="SODRules_Delete"),
     path("application/", ApplicationList.as_view(), name="application_list"),
+    path("authorize/", AuthorizeRequest, name="authorize"),
     path("exceptions/", ExceptionsCreate.as_view(), name="exceptions_list"),
     path(
         "exceptions/<str:application_hash>/",
