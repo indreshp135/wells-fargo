@@ -1,6 +1,7 @@
 import shutil
 import os
 from django.conf import settings
+import requests
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import permissions
 from app.models import File, Folder, Notification
@@ -71,10 +72,16 @@ def FileTransferRequest(request):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # get manager email of the user
-        ## TODO: get manager email of the user
-        ## /api/user/get-manager/
-        manager_email = "indreshp135@gmail.com"
+        manager_email = requests.get(
+            os.environ.get("PBE_URL")
+            + "/api/users/manager/?email={}".format(request.user.email)
+        ).json()["manager"]
+
+        if not manager_email:
+            return Response(
+                {"message": "Manager email not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
         Notification.objects.create(
             requested_user=request.user,
@@ -152,16 +159,25 @@ def FileTransferProceed(request):
             )
 
         if transfer_accepted:
-            notification.notification_read = True
-            notification.save()
 
             file = notification.file
             destination_folder = notification.destination_folder
 
-            # get manager email of the destination folder
-            ## TODO: get manager email of the destination folder
-            ## /api/user/get-manager/<str:folder_slug>/
-            manager_email = "indreshp135@gmail.com"
+            res = requests.get(
+                os.environ.get("PBE_URL")
+                + "/api/users/manager/location/?location={}".format(
+                    destination_folder.folder_slug.upper()
+                )
+            ).json()
+
+            if "manager" not in res:
+                return Response(
+                    {"message": "Manager email not found"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            else:
+                manager_email = res["manager"]
 
             Notification.objects.create(
                 requested_user=notification.requested_user,
@@ -171,6 +187,10 @@ def FileTransferProceed(request):
                 notification_user=User.objects.get(email=manager_email),
                 notification_read=False,
             )
+
+            notification.notification_read = True
+            notification.save()
+
             return Response(
                 {"message": "File Transfer Proceeded"}, status=status.HTTP_200_OK
             )

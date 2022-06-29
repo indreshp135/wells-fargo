@@ -21,6 +21,7 @@ export function AddExceptionsPage() {
   const [selectedAction, setSelectedAction] = React.useState('');
   const [users, setUsers] = React.useState([]);
   const [selectedUser, setSelectedUser] = React.useState('');
+  const [grandType, setGrandType] = React.useState('');
 
   useEffect(async () => {
     let res = await getAssets(hash);
@@ -43,6 +44,7 @@ export function AddExceptionsPage() {
         setSelectedAsset(res.data.asset_id);
         setSelectedAction(res.data.action_id);
         setSelectedUser(res.data.exception_for_email);
+        setGrandType(res.data.exception_grand_type);
       }
     }
   }, []);
@@ -55,7 +57,8 @@ export function AddExceptionsPage() {
         asset_id: selectedAsset,
         action_id: selectedAction,
         exception_for_email: selectedUser,
-        application_hash: hash
+        application_hash: hash,
+        exception_grand_type: grandType
       });
       if (res.status === 201) {
         setExceptionDescription('');
@@ -63,6 +66,7 @@ export function AddExceptionsPage() {
         setSelectedAsset('');
         setSelectedAction('');
         setSelectedUser('');
+        setGrandType('');
 
         toast.success('New Exception Added');
       } else {
@@ -75,7 +79,8 @@ export function AddExceptionsPage() {
         asset_id: selectedAsset,
         action_id: selectedAction,
         exception_for_email: selectedUser,
-        application_hash: hash
+        application_hash: hash,
+        exception_grand_type: grandType
       });
       if (res.status === 200) {
         setExceptionDescription('');
@@ -83,6 +88,7 @@ export function AddExceptionsPage() {
         setSelectedAsset('');
         setSelectedAction('');
         setSelectedUser('');
+        setGrandType('');
 
         toast.success('Exception Updated');
         history.push('../..');
@@ -156,6 +162,19 @@ export function AddExceptionsPage() {
             {users.map((user) => (
               <option key={user.email} value={user.email}>{user.email}</option>
             ))}
+          </Form.Control>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Grand Type</Form.Label>
+          <Form.Control
+            as="select"
+            onChange={(e) => setGrandType(e.target.value)}
+            value={grandType}
+          >
+            <option value="">Select Grand Type</option>
+            <option value="PG">Permission Granted</option>
+            <option value="PD">Permission Denied</option>
+            <option value="AR">Approval Required</option>
           </Form.Control>
         </Form.Group>
         <div className="text-center">

@@ -10,7 +10,7 @@
             "action_id": 1,
             "application_id": 1,
             "exception_rule_created_by": 1,
-            "exception_rule_approval_required": 0,
+            "exception_grand_type": "PG",
             "exception_rule_created_date": "2020-01-01T00:00:00Z",
             "exception_for": 1
         }
@@ -25,7 +25,7 @@
             "asset_id": 2,
             "action_id": 2,
             "application_id": 1,
-            "exception_rule_approval_required": 0,
+            "exception_grand_type": "PG",
             "exception_rule_created_by": 1,
             "exception_rule_created_date": "2020-01-01T00:00:00Z",
             "exception_for": 1
