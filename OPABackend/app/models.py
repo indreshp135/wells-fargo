@@ -77,39 +77,6 @@ class SODRules(models.Model):
         verbose_name = "SOD Rule"
 
 
-class ExceptionRules(models.Model):
-    exception_rule_id = models.AutoField(primary_key=True)
-    exception_rule_name = models.CharField(max_length=100)
-    exception_rule_description = models.CharField(max_length=100)
-    asset_id = models.ForeignKey(Asset, on_delete=models.CASCADE)
-    action_id = models.ForeignKey(Action, on_delete=models.CASCADE)
-    application_id = models.ForeignKey(Application, on_delete=models.CASCADE)
-
-    class approval_types(models.TextChoices):
-        PERMISSION_GRANTED = "PG", _("Permission Granted")
-        PERMISSION_DENIED = "PD", _("Permission Denied")
-        APRROVAL_REQUIRED = "AR", _("Approval Required")
-
-    exception_grand_type = models.CharField(
-        max_length=2,
-        choices=approval_types.choices,
-        default=approval_types.PERMISSION_GRANTED,
-    )
-    exception_rule_created_date = models.DateTimeField(auto_now_add=True)
-    exception_rule_created_by = models.ForeignKey(
-        "auth.User", related_name="exception_rule_create_by", on_delete=models.CASCADE
-    )
-    exception_for = models.ForeignKey(
-        "auth.User", on_delete=models.CASCADE, related_name="exception_for"
-    )
-
-    def __str__(self):
-        return self.exception_rule_name
-
-    class Meta:
-        verbose_name = "Exception Rule"
-
-
 class Users(models.Model):
     user_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100)
@@ -130,6 +97,39 @@ class Users(models.Model):
 
     class Meta:
         verbose_name = "User"
+
+
+class ExceptionRules(models.Model):
+    exception_rule_id = models.AutoField(primary_key=True)
+    exception_rule_name = models.CharField(max_length=100)
+    exception_rule_description = models.CharField(max_length=100)
+    asset_id = models.ForeignKey(Asset, on_delete=models.CASCADE)
+    action_id = models.ForeignKey(Action, on_delete=models.CASCADE)
+    application_id = models.ForeignKey(Application, on_delete=models.CASCADE)
+
+    class approval_types(models.TextChoices):
+        PERMISSION_GRANTED = "PG", _("PERMISSION_GRANTED")
+        PERMISSION_DENIED = "PD", _("PERMISSION_DENIED")
+        APRROVAL_REQUIRED = "AR", _("APPROVAL_REQUIRED")
+
+    exception_grand_type = models.CharField(
+        max_length=2,
+        choices=approval_types.choices,
+        default=approval_types.PERMISSION_GRANTED,
+    )
+    exception_rule_created_date = models.DateTimeField(auto_now_add=True)
+    exception_rule_created_by = models.ForeignKey(
+        "auth.User", related_name="exception_rule_create_by", on_delete=models.CASCADE
+    )
+    exception_for = models.ForeignKey(
+        Users, on_delete=models.CASCADE, related_name="exception_for"
+    )
+
+    def __str__(self):
+        return self.exception_rule_name
+
+    class Meta:
+        verbose_name = "Exception Rule"
 
 
 class SodUser(models.Model):

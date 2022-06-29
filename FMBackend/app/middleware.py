@@ -27,5 +27,4 @@ class GetAuthorization:
                 request.user.authorizations = []
 
         response = self.get_response(request)
-        print(response.status_code)
         return response
