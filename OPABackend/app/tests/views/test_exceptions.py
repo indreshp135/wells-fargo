@@ -13,6 +13,7 @@ class ApplicationsTest(TestCase):
 
     fixtures = [
         "app/fixtures/users.json",
+        "app/fixtures/customUsers.json",
         "app/fixtures/applications.json",
         "app/fixtures/assets.json",
         "app/fixtures/actions.json",
