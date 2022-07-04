@@ -24,7 +24,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
         extra_kwargs = {"application_hash": {"read_only": True}}
 
     def save(self, **kwargs):
-        application_hash = str(uuid4())
+        application_hash = str(uuid4()) + self.validated_data["application_name"]
         self.validated_data["application_hash"] = application_hash
         user = None
         request = self.context.get("request")
