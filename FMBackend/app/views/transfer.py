@@ -73,7 +73,7 @@ def FileTransferRequest(request):
             )
 
         manager_email = requests.get(
-            os.environ.get("PBE_URL")
+            os.environ.get("AUTHZ_SERVER_URL")
             + "/api/users/manager/?email={}".format(request.user.email)
         ).json()["manager"]
 
@@ -164,7 +164,7 @@ def FileTransferProceed(request):
             destination_folder = notification.destination_folder
 
             res = requests.get(
-                os.environ.get("PBE_URL")
+                os.environ.get("AUTHZ_SERVER_URL")
                 + "/api/users/manager/location/?location={}".format(
                     destination_folder.folder_slug.upper()
                 )

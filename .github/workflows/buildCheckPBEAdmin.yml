@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - OPAReact/**
+    branches:
+      - "!prod"
 
 jobs:
   build:
