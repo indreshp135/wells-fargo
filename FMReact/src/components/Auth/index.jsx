@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import { GAUTH_URL } from '../../urls';
 import './style.css';
 import { getUserDetails, googleAuth } from '../../requests';
+// import store from '../../redux/store';
+// import { getAccess } from '../../redux/actions/AccessActions';
 
 export function AuthPage() {
   const history = useHistory();
@@ -35,6 +37,7 @@ export function AuthPage() {
     const res = await googleAuth(data);
     if (res.status === 200 && res.data.key) {
       sessionStorage.setItem('Token', res.data.key);
+
       history.push('/');
       toast.success('Authentication Success', {
         position: 'bottom-right',

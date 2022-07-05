@@ -8,7 +8,8 @@ import {
   TRANSFER_PERMIT_URL,
   TRANSFER_PROCEED_URL,
   TRANSFER_REQUEST_URL,
-  GET_NOTIFICATIONS_URL
+  GET_NOTIFICATIONS_URL,
+  GET_ACCESS_LIST
 
 } from './urls';
 
@@ -48,3 +49,7 @@ export const transferPermit = (data) => axios.post(TRANSFER_PERMIT_URL, data, he
 
 // notifications
 export const getNotifications = () => axios.get(GET_NOTIFICATIONS_URL, header);
+
+// Access list
+
+export const getAccessList = () => axios.get(GET_ACCESS_LIST, header);

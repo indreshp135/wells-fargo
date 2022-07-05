@@ -7,8 +7,12 @@ import {
   Button, Container, Modal, Form
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import Boxes from './Boxes';
-import { createFolder, getFolders } from '../../requests';
+import { createFolder, getFolders, getAccessList } from '../../requests';
+// import store from '../../redux/store';
+import { getAccess } from '../../redux/actions/AccessActions';
+import { filterAssetAccess } from '../../redux/utils/checkAccess';
 
 export function Homepage() {
   const [show, setShow] = React.useState(false);
@@ -16,11 +20,14 @@ export function Homepage() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [folders, setFolders] = React.useState([]);
-
+  const dispatch = useDispatch();
   useEffect(async () => {
+    const resp = await getAccessList();
+    dispatch(getAccess(resp.data));
+
     const response = await getFolders();
     if (response.status === 200) {
-      setFolders(response.data);
+      setFolders(filterAssetAccess(response.data));
     }
   }, []);
 
