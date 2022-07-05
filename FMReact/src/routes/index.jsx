@@ -16,6 +16,7 @@ import { BackButton } from '../components/BackButton';
 
 export function Routes() {
   return (
+
     <Router>
       <NavBar />
       <ScrollToTopController />
@@ -34,6 +35,7 @@ export function Routes() {
       <BackButton />
       {/* <Footer /> */}
     </Router>
+
   );
 }
 
