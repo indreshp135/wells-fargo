@@ -21,7 +21,7 @@ export function FolderPage() {
   const handleClose = () => setShow(false);
   const handleShow = () => {
     // location = location[0].charAt(0).toUpperCase() + location.slice(1);
-    if (checkActionAccess('Write', location.name.toUpperCase())) {
+    if (checkActionAccess('WRITE', location.name.toUpperCase())) {
       setShow(true);
     } else {
       toast.error('Access denied to upload file');
@@ -34,7 +34,7 @@ export function FolderPage() {
   useEffect(async () => {
     let response = await getFiles(location.name);
     if (response.status === 200) {
-      if (checkActionAccess('Read', location.name.toUpperCase())) {
+      if (checkActionAccess('READ', location.name.toUpperCase())) {
         setFiles(response.data);
       } else {
         toast.error('You donot have read permission for this page');
