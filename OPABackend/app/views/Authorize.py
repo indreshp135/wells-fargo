@@ -47,7 +47,7 @@ from app.serializers.AuthorizeSerializer import AuthorizeSerializer
 def AuthorizeRequest(request):
     try:
         user_email = request.data["user_email"]
-        app_hash = request.data["application"]
+        app_hash = request.data["app_hash"]
 
         if not Application.objects.filter(application_hash=app_hash).exists():
             return Response(

@@ -28,7 +28,7 @@ export function AssetActionPage() {
   }, []);
 
   const addAsset = async () => {
-    const res = await postAsset({ asset_name: Asset, application_hash: hash });
+    const res = await postAsset({ asset_name: Asset.toUpperCase(), application_hash: hash });
     if (res.status === 201) {
       setAssets([...Assets, res.data]);
       toast.success('New Asset Added');
@@ -38,7 +38,7 @@ export function AssetActionPage() {
   };
 
   const addAction = async () => {
-    const res = await postAction({ action_name: Action, application_hash: hash });
+    const res = await postAction({ action_name: Action.toUpperCase(), application_hash: hash });
     if (res.status === 201) {
       setActions([...Actions, res.data]);
       toast.success('New Action Added');

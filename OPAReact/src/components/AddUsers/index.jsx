@@ -19,10 +19,18 @@ export function AddUsersPage() {
     }
   }, []);
 
+  function emailRegex(val) {
+    const mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (mailformat.test(val)) {
+      return true;
+    }
+    toast.error('Enter valid email id');
+    return false;
+  }
   async function controlSubmit() {
     if (userSod === 'rand') {
       toast.error('Kindly select SOD for project');
-    } else {
+    } else if (emailRegex(email)) {
       const q = `email=${email}`;
       const response = await getUserExist(q);
       if (response.status === 200) {

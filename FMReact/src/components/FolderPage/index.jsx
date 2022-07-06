@@ -12,13 +12,21 @@ import Boxes from './Boxes';
 import {
   getFiles, deleteFile, createFile, getFolders
 } from '../../requests';
+import { checkActionAccess } from '../../redux/utils/checkAccess';
 
 export function FolderPage() {
   const location = useParams();
   const [show, setShow] = React.useState(false);
   const [file, setFile] = React.useState(null);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    // location = location[0].charAt(0).toUpperCase() + location.slice(1);
+    if (checkActionAccess('WRITE', location.name.toUpperCase())) {
+      setShow(true);
+    } else {
+      toast.error('Access denied to upload file');
+    }
+  };
 
   const [files, setFiles] = React.useState([]);
   const [folders, setFolders] = React.useState([]);
@@ -26,7 +34,11 @@ export function FolderPage() {
   useEffect(async () => {
     let response = await getFiles(location.name);
     if (response.status === 200) {
-      setFiles(response.data);
+      if (checkActionAccess('READ', location.name.toUpperCase())) {
+        setFiles(response.data);
+      } else {
+        toast.error('You donot have read permission for this page');
+      }
     }
     response = await getFolders();
     if (response.status === 200) {
