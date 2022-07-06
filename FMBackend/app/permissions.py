@@ -41,3 +41,19 @@ class FileReadPermissions(permissions.BasePermission):
         ):
             return True
         return False
+
+
+class TransferRequestPermissions(permissions.BasePermission):
+    def has_permission(self, request, view):
+        file_random_name = request.data["file_random_name"]
+        if not File.objects.filter(file_random_name=file_random_name).exists():
+            return False
+        file = File.objects.get(file_random_name=file_random_name)
+        folder = file.folder.folder_name.upper()
+        if (
+            (folder in request.authorizations)
+            and ("TRANSFER" in request.authorizations[folder])
+            and request.authorizations[folder]["TRANSFER"] == "APPROVAL_REQUIRED"
+        ):
+            return True
+        return False
