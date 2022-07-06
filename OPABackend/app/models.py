@@ -1,5 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Application(models.Model):
@@ -86,17 +88,22 @@ class Users(models.Model):
     manager = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
     is_manager = models.BooleanField(default=False)
 
-    def save(self, *args, **kwargs):
-        if self.is_manager:
-            self.manager = self
-        self.location = self.location.upper()
-        super(Users, self).save(*args, **kwargs)
-
     def __str__(self):
         return self.email
 
     class Meta:
         verbose_name = "User"
+
+
+@receiver(post_save, sender=Users)
+def user(sender, instance, created, **kwargs):
+    if instance.is_manager and not instance.manager:
+        instance.manager = instance
+        instance.save()
+
+    if instance.location != instance.location.upper():
+        instance.location = instance.location.upper()
+        instance.save()
 
 
 class ExceptionRules(models.Model):

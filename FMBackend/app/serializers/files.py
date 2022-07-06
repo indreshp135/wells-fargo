@@ -22,7 +22,7 @@ class FileSerializer(serializers.Serializer):
         folder_slug = self.validated_data["folder_slug"]
         file_name = file_uploaded.name
         extension = file_name.split(".")[-1]
-        random_name = str(uuid.uuid4())
+        random_name = str(uuid.uuid4()) + file_name
         folder = Folder.objects.get(folder_slug=folder_slug)
         self.validated_data["file_name"] = file_name
         self.validated_data["extension"] = extension
