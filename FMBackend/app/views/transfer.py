@@ -15,6 +15,7 @@ from app.serializers.transfer import (
     TransferProceedSerializer,
     NotificationSerializer,
 )
+from app.permissions import TransferRequestPermissions
 
 
 @swagger_auto_schema(
@@ -54,7 +55,7 @@ from app.serializers.transfer import (
     },
 )
 @api_view(["POST"])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.IsAuthenticated, TransferRequestPermissions])
 def FileTransferRequest(request):
     try:
         file_random_name = request.data["file_random_name"]
