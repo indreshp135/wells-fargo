@@ -126,9 +126,9 @@ jobs:
     - name: deploy
       uses: appleboy/ssh-action@master
       with:
-        host: shell.xshellz.com
+        host: wells.indreshp.xyz
         port: 22
-        username: indreshp
+        username: wells-intern
         password: ${{ secrets.SSH_KEY }}
         script: |
           cd wells-fargo

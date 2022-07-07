@@ -172,4 +172,4 @@ REST_FRAMEWORK = {
 
 SITE_ID = int(os.environ.get("SITE_ID"))
 
-CSRF_TRUSTED_ORIGINS = ["https://pbe.indreshp.xyz"]
+CSRF_TRUSTED_ORIGINS = os.environ.get("HOSTED_URL").split(" ")
