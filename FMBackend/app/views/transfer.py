@@ -15,7 +15,10 @@ from app.serializers.transfer import (
     TransferProceedSerializer,
     NotificationSerializer,
 )
-from app.permissions import TransferRequestPermissions
+from app.permissions import (
+    TransferRequestPermissions,
+    TransferRequestApprovalPermissions,
+)
 
 
 @swagger_auto_schema(
@@ -55,7 +58,7 @@ from app.permissions import TransferRequestPermissions
     },
 )
 @api_view(["POST"])
-@permission_classes([permissions.IsAuthenticated, TransferRequestPermissions])
+@permission_classes([permissions.IsAuthenticated, TransferRequestApprovalPermissions])
 def FileTransferRequest(request):
     try:
         file_random_name = request.data["file_random_name"]
@@ -74,7 +77,7 @@ def FileTransferRequest(request):
             )
 
         manager_email = requests.get(
-            os.environ.get("AUTHZ_SERVER_URL")
+            os.environ.get("PBE_URL")
             + "/api/users/manager/?email={}".format(request.user.email)
         ).json()["manager"]
 
@@ -88,7 +91,7 @@ def FileTransferRequest(request):
             requested_user=request.user,
             file=file,
             destination_folder=Folder.objects.get(folder_slug=destination_folder),
-            notification_type=Notification.NotificationType.REQUEST_DIRECT_MANAGER,
+            notification_type=Notification.NotificationType.TRANSFER_REQUEST_DIRECT_MANAGER,
             notification_user=User.objects.get(email=manager_email),
             notification_read=False,
         )
@@ -144,7 +147,7 @@ def FileTransferRequest(request):
 def FileTransferProceed(request):
     try:
         notification_id = request.data["notification_id"]
-        transfer_accepted = request.data["transfer_accepted"]
+        action_accepted = request.data["action_accepted"]
         notification = Notification.objects.get(pk=notification_id)
         if notification.notification_user != request.user:
             return Response(
@@ -152,20 +155,20 @@ def FileTransferProceed(request):
             )
         if (
             notification.notification_type
-            != Notification.NotificationType.REQUEST_DIRECT_MANAGER
+            != Notification.NotificationType.TRANSFER_REQUEST_DIRECT_MANAGER
         ):
             return Response(
                 {"message": "Notification is not a file transfer request"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        if transfer_accepted:
+        if action_accepted:
 
             file = notification.file
             destination_folder = notification.destination_folder
 
             res = requests.get(
-                os.environ.get("AUTHZ_SERVER_URL")
+                os.environ.get("PBE_URL")
                 + "/api/users/manager/location/?location={}".format(
                     destination_folder.folder_slug.upper()
                 )
@@ -184,7 +187,7 @@ def FileTransferProceed(request):
                 requested_user=notification.requested_user,
                 file=file,
                 destination_folder=destination_folder,
-                notification_type=Notification.NotificationType.REQUEST_LOCATION_MANAGER,
+                notification_type=Notification.NotificationType.TRANSFER_REQUEST_LOCATION_MANAGER,
                 notification_user=User.objects.get(email=manager_email),
                 notification_read=False,
             )
@@ -253,7 +256,7 @@ def FileTransferProceed(request):
 def FileTransferPermit(request):
     try:
         notification_id = request.data["notification_id"]
-        transfer_accepted = request.data["transfer_accepted"]
+        action_accepted = request.data["action_accepted"]
         notification = Notification.objects.get(pk=notification_id)
         if notification.notification_user != request.user:
             return Response(
@@ -261,13 +264,13 @@ def FileTransferPermit(request):
             )
         if (
             notification.notification_type
-            != Notification.NotificationType.REQUEST_LOCATION_MANAGER
+            != Notification.NotificationType.TRANSFER_REQUEST_LOCATION_MANAGER
         ):
             return Response(
                 {"message": "Notification is not a file transfer request"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        if transfer_accepted:
+        if action_accepted:
             file = notification.file
             destination_folder = notification.destination_folder
 
@@ -330,7 +333,7 @@ def GetNotifications(request):
         for notification in notifications:
             if (
                 notification.notification_type
-                == Notification.NotificationType.REQUEST_DIRECT_MANAGER
+                == Notification.NotificationType.TRANSFER_REQUEST_DIRECT_MANAGER
             ):
                 notification.notification_message = (
                     "You have a file transfer request from "
@@ -342,7 +345,7 @@ def GetNotifications(request):
                 )
             elif (
                 notification.notification_type
-                == Notification.NotificationType.REQUEST_LOCATION_MANAGER
+                == Notification.NotificationType.TRANSFER_REQUEST_LOCATION_MANAGER
             ):
                 notification.notification_message = (
                     "You have a file transfer request from "
@@ -353,10 +356,122 @@ def GetNotifications(request):
                     + notification.file.file_name
                     + " to your folder."
                 )
+            elif (
+                notification.notification_type
+                == Notification.NotificationType.DELETE_REQUEST_LOCATION_MANAGER
+            ):
+                notification.notification_message = (
+                    "You have a file delete request from "
+                    + notification.requested_user.username
+                    + " to delete file "
+                    + notification.file.file_name
+                    + " at "
+                    + notification.destination_folder.folder_name
+                )
+            elif (
+                notification.notification_type
+                == Notification.NotificationType.WRITE_REQUEST_LOCATION_MANAGER
+            ):
+                notification.notification_message = (
+                    "You have a file write request from "
+                    + notification.requested_user.username
+                    + " to write file "
+                    + notification.file.file_name
+                    + " at "
+                    + notification.destination_folder.folder_name
+                )
         serializer = NotificationSerializer(notifications, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
         return Response(
             {"message": "Get Notifications Failure"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+@swagger_auto_schema(
+    method="POST",
+    operation_id="file_transfer",
+    operation_summary="File Transfer",
+    operation_description="File Transfer",
+    request_body=TransferSerializer,
+    responses={
+        status.HTTP_200_OK: Schema(
+            type="object",
+            properties={
+                "message": {
+                    "type": "string",
+                    "description": "File Transfer Successful",
+                },
+            },
+        ),
+        status.HTTP_400_BAD_REQUEST: Schema(
+            type="object",
+            properties={
+                "message": {"type": "string", "description": "File Transfer Failed"},
+            },
+        ),
+        status.HTTP_401_UNAUTHORIZED: Schema(
+            type="object",
+            properties={
+                "message": {"type": "string", "description": "Unauthorized"},
+            },
+        ),
+        status.HTTP_404_NOT_FOUND: Schema(
+            type="object",
+            properties={
+                "message": {"type": "string", "description": "Not Found"},
+            },
+        ),
+    },
+)
+@api_view(["POST"])
+@permission_classes([permissions.IsAuthenticated, TransferRequestPermissions])
+def FileTransferDirect(request):
+    try:
+        file_random_name = request.data["file_random_name"]
+        destination_folder = request.data["destination_folder"]
+        print(destination_folder)
+        file = File.objects.get(file_random_name=file_random_name)
+
+        if not Folder.objects.filter(folder_slug=destination_folder).exists():
+            return Response(
+                {"message": "Folder does not exist"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        destination_folder = Folder.objects.get(folder_slug=destination_folder)
+
+        if file.folder.folder_slug == destination_folder:
+            return Response(
+                {"message": "File already in the destination folder"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        print("here")
+
+        # get extension of the file
+        _, extension = file.file_name.split(".")
+
+        # change folder in uploads directory
+        shutil.move(
+            os.path.join(
+                settings.MEDIA_ROOT,
+                file.folder.folder_slug,
+                file.file_random_name + "." + extension,
+            ),
+            os.path.join(
+                settings.MEDIA_ROOT,
+                destination_folder.folder_slug,
+                file.file_random_name + "." + extension,
+            ),
+        )
+
+        file.folder = destination_folder
+        file.save()
+
+        return Response({"message": "File Transfer Success"}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(e)
+        return Response(
+            {"message": "File Transfer Failure"}, status=status.HTTP_400_BAD_REQUEST
         )

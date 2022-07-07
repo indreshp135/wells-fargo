@@ -23,15 +23,39 @@ services:
     build:
       context: ./OPABackend
       dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - fm_db
     ports:
       - "8000:8000"
+    env_file:
+      - ./OPABackend/.env
+
+  pbe_db:
+    container_name: pbe_db
+    image: postgres
+    restart: unless-stopped
+    env_file:
+      - ./OPABackend/.env
+    volumes:
+      - "./OPABackend/db/postgres_data:/var/lib/postgresql/data"
 
   fmbackend:
     container_name: FM-django-prod
     build:
       context: ./FMBackend
       dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:8001
+    depends_on:
+      - fm_db
     ports:
       - "8001:8001"
+    env_file:
+      - ./FMBackend/.env
+
+  fm_db:
+    container_name: fm_db
+    image: postgres
+    restart: unless-stopped
+    env_file:
+      - ./FMBackend/.env
+    volumes:
+      - "./FMBackend/db/postgres_data:/var/lib/postgresql/data"

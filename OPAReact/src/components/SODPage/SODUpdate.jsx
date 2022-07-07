@@ -119,7 +119,7 @@ export function SODUpdate() {
     <Container>
       <Row className="mt-5 float-right">
 
-        <Col className="text-center" lg={2}>
+        <Col className="text-center">
           <h3>Edit SOD Rules </h3>
         </Col>
       </Row>

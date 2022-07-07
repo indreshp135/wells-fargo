@@ -8,7 +8,7 @@ class TransferSerializer(serializers.Serializer):
 
 class TransferProceedSerializer(serializers.Serializer):
     notification_id = serializers.IntegerField()
-    transfer_accepted = serializers.BooleanField()
+    action_accepted = serializers.BooleanField()
 
 
 class NotificationSerializer(serializers.Serializer):

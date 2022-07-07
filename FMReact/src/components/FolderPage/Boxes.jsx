@@ -9,10 +9,10 @@ import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';
 import styles from './style.module.css';
 import { MEDIA_URL } from '../../urls';
-import { transferRequest } from '../../requests';
+import { transferRequest, transferDirect } from '../../requests';
 
 export default function Boxes({
-  files, folder, deleteFile, folders
+  files, folder, deleteFile, folders, showTra, showDel, setFiles
 }) {
   const [show, setShow] = React.useState(false);
   const [file, setFile] = React.useState('');
@@ -29,12 +29,21 @@ export default function Boxes({
       file_random_name: file,
       destination_folder: folderChosen
     };
-    const res = await transferRequest(data);
+    let res;
+    if (showTra === 1) {
+      res = await transferRequest(data);
+    } else if (showTra === 2) {
+      res = await transferDirect(data);
+      const newFiles = files.filter((
+        { file_random_name: fileName }
+      ) => fileName !== file);
+      setFiles(newFiles);
+    }
     if (res.status === 200) {
       setShow(false);
       setFile('');
       setFolder('');
-      toast.success('File transfer Request sent successfully');
+      toast.success(res.data.message);
     } else {
       toast.error('Error transferring file');
     }
@@ -56,14 +65,18 @@ export default function Boxes({
               </h3>
             </a>
             <div>
-              <Button
-                variant="outline-danger"
-                onClick={() => deleteFile(fileRandomName)}
-                className="m-2"
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </Button>
-              <Button onClick={() => transfer(fileRandomName)} variant="outline-warning" className="m-2"><FontAwesomeIcon icon={faExchange} className={styles.small} /></Button>
+              { showDel
+                ? (
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => deleteFile(fileRandomName)}
+                    className="m-2"
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </Button>
+                )
+                : null}
+              {showTra ? <Button onClick={() => transfer(fileRandomName)} variant="outline-warning" className="m-2"><FontAwesomeIcon icon={faExchange} className={styles.small} /></Button> : null}
             </div>
           </div>
         ))}
@@ -121,5 +134,8 @@ Boxes.propTypes = {
   deleteFile: PropTypes.func.isRequired,
   folders: PropTypes.arrayOf(PropTypes.shape({
     folder_name: PropTypes.string.isRequired
-  })).isRequired
+  })).isRequired,
+  showTra: PropTypes.number.isRequired,
+  showDel: PropTypes.number.isRequired,
+  setFiles: PropTypes.func.isRequired
 };

@@ -100,21 +100,24 @@ if "test" in sys.argv or "test_coverage" in sys.argv:
             "NAME": BASE_DIR / "db-test.sqlite3",
         }
     }
-else:
+elif os.environ.get("PRODUCTION") == "FALSE":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-    # DATABASES = {
-    #     "default": {
-    #         "ENGINE": "djongo",
-    #         "NAME": os.environ.get("DB_NAME"),
-    #         "HOST": os.environ.get("DB_HOST"),
-    #         "PORT": os.environ.get("DB_PORT"),
-    #     }
-    # }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": os.environ.get("SQL_ENGINE"),
+            "NAME": os.environ.get("SQL_DATABASE"),
+            "USER": os.environ.get("SQL_USER"),
+            "PASSWORD": os.environ.get("SQL_PASSWORD"),
+            "HOST": os.environ.get("SQL_HOST"),
+            "PORT": os.environ.get("SQL_PORT"),
+        }
+    }
 
 
 # Password validation
@@ -169,3 +172,5 @@ REST_FRAMEWORK = {
 }
 
 SITE_ID = int(os.environ.get("SITE_ID"))
+
+CSRF_TRUSTED_ORIGINS = [os.environ.get("HOSTED_URL")]

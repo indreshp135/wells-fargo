@@ -28,6 +28,8 @@ class File(models.Model):
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
     file = models.FileField(upload_to=upload_to)
 
+    display = models.BooleanField(default=True)
+
     def __str__(self):
         return self.file_name
 
@@ -47,13 +49,17 @@ class Notification(models.Model):
     destination_folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
 
     class NotificationType(models.TextChoices):
-        REQUEST_DIRECT_MANAGER = "RDM", _("Request Direct Manager")
-        REQUEST_LOCATION_MANAGER = "RLM", _("Request Location Manager")
+        TRANSFER_REQUEST_DIRECT_MANAGER = "TRDM", _("Transfer Request Direct Manager")
+        TRANSFER_REQUEST_LOCATION_MANAGER = "TRLM", _(
+            "Transfer Request Location Manager"
+        )
+        WRITE_REQUEST_LOCATION_MANAGER = "WRLM", _("Write Request Location Manager")
+        DELETE_REQUEST_LOCATION_MANAGER = "DLRM", _("Delete Request Location Manager")
 
     notification_type = models.CharField(
-        max_length=3,
+        max_length=4,
         choices=NotificationType.choices,
-        default=NotificationType.REQUEST_DIRECT_MANAGER,
+        default=NotificationType.TRANSFER_REQUEST_DIRECT_MANAGER,
     )
 
     notification_read = models.BooleanField(default=False)

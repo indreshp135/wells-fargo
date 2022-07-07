@@ -1,14 +1,14 @@
 import { store } from '../store';
-import { PERMISSION_DENIED } from '../actionTypes/AccessTypes';
+import { APPROVAL_REQUIRED, PERMISSION_DENIED } from '../actionTypes/AccessTypes';
 
 // Filter folders and don't display folders with all actions as PERMISSION_DENIED
 export function filterAssetAccess(folders) {
   const { accessList } = store.getState().access;
-
+  console.log(accessList);
   const filteredList = [];
 
   folders.forEach((folder) => {
-    const name = folder.folder_name;
+    const name = folder.folder_name.toUpperCase();
     const curAsset = accessList.allowed[name];
     let flag = false;
 
@@ -32,7 +32,7 @@ export function filterAssetAccess(folders) {
 // Util function for each asset action combination
 export function checkActionAccess(action, asset) {
   const { accessList } = store.getState().access;
-  if (accessList.allowed[asset][action] === PERMISSION_DENIED) return false;
-
-  return true;
+  if (accessList.allowed[asset][action] === PERMISSION_DENIED) return 0;
+  if (accessList.allowed[asset][action] === APPROVAL_REQUIRED) return 1;
+  return 2;
 }

@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  ListGroup, Badge
-} from 'react-bootstrap';
+import { ListGroup, Badge } from 'react-bootstrap';
 import { faBan, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
-import { transferPermit, transferProceed, getNotifications } from '../../requests';
+import {
+  transferPermit,
+  transferProceed,
+  getNotifications,
+  fileActionPermit,
+  fileDeleteActionPermit
+} from '../../requests';
 
 export function Pills() {
   const [Notifications, setNotifications] = React.useState([]);
@@ -18,27 +22,55 @@ export function Pills() {
   const mark = async (id, type, status) => {
     const data = {
       notification_id: id,
-      transfer_accepted: status
+      action_accepted: status
     };
-    if (type === 'RDM') {
+    if (type === 'TRDM') {
       const res = await transferProceed(data);
       if (res.status === 200) {
-        setNotifications(Notifications.filter((
-          { notification_id: notificationId }
-        ) => notificationId !== id));
+        setNotifications(
+          Notifications.filter(
+            ({ notification_id: notificationId }) => notificationId !== id
+          )
+        );
         toast.success('Transfer Request Sent Successfully');
       } else {
         toast.error('Error Sending Transfer Request');
       }
-    } else {
+    } else if (type === 'TRLM') {
       const res = await transferPermit(data);
       if (res.status === 200) {
-        setNotifications(Notifications.filter((
-          { notification_id: notificationId }
-        ) => notificationId !== id));
-        toast.success('Transfer Request Sent Successfully');
+        setNotifications(
+          Notifications.filter(
+            ({ notification_id: notificationId }) => notificationId !== id
+          )
+        );
+        toast.success('Transfer Approved Sent Successfully');
       } else {
         toast.error('Error Sending Transfer Request');
+      }
+    } else if (type === 'WRLM') {
+      const res = await fileActionPermit(data);
+      if (res.status === 200) {
+        setNotifications(
+          Notifications.filter(
+            ({ notification_id: notificationId }) => notificationId !== id
+          )
+        );
+        toast.success('Successful');
+      } else {
+        toast.error('Error');
+      }
+    } else {
+      const res = await fileDeleteActionPermit(data);
+      if (res.status === 200) {
+        setNotifications(
+          Notifications.filter(
+            ({ notification_id: notificationId }) => notificationId !== id
+          )
+        );
+        toast.success('Successful');
+      } else {
+        toast.error('Error');
       }
     }
   };
