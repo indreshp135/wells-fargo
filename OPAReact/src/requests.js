@@ -22,7 +22,8 @@ import {
   EXCEPTIONS_RETRIVE_URL,
   USERS_GET_URL,
   USER_EXISTS,
-  CREATE_SODUSER_URL
+  CREATE_SODUSER_URL,
+  GET_SOD_USER
 
 } from './urls';
 
@@ -77,3 +78,4 @@ export const getUserExist = (query) => axios.get(`${USER_EXISTS}?${query}`, head
 
 // Sod User
 export const postSodUser = (data) => axios.post(CREATE_SODUSER_URL, data, header);
+export const getSODUser = (hash) => axios.get(`${GET_SOD_USER}${hash}`, header);

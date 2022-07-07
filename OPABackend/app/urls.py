@@ -15,7 +15,7 @@ from app.views.Exceptions import (
     ExceptionsDeleteRetrive,
 )
 from app.views.Users import UserList
-from app.views.SODUser import SODUserCreate
+from app.views.SODUser import SODUserCreate, GetSODUser
 from app.views.Manager import get_manager, get_manager_from_location
 from app.views.Authorize import AuthorizeRequest
 
@@ -49,6 +49,9 @@ urlpatterns = [
     ),
     path("users/", UserList.as_view(), name="users_list"),
     path("sodUser/create/", SODUserCreate.as_view(), name="create_soduser"),
+    path(
+        "sodUser/get/<str:application_hash>/", GetSODUser.as_view(), name="get_soduser"
+    ),
     path("users/manager/", get_manager, name="manager"),
     path("users/manager/location/", get_manager_from_location, name="manager"),
 ]

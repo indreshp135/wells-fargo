@@ -15,7 +15,8 @@ import {
   FILES_DELETE_PERMISSION,
   FILES_PERMISSION_URL,
   TRANSFER_DIRECT_URL,
-  FILES_DELETE_ACTION
+  FILES_DELETE_ACTION,
+  GET_USER_DETAILS
 } from './urls';
 
 // public routes
@@ -68,3 +69,7 @@ export const getNotifications = () => axios.get(GET_NOTIFICATIONS_URL, header);
 // Access list
 
 export const getAccessList = () => axios.get(GET_ACCESS_LIST, header);
+
+// User details
+
+export const getUserDisplayDetails = () => axios.get(GET_USER_DETAILS, header);
