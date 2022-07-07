@@ -27,6 +27,8 @@ export const TRANSFER_DIRECT_URL = `${BACKEND_URL}/api/transfer/file/direct/`;
 // notifications
 export const GET_NOTIFICATIONS_URL = `${BACKEND_URL}/api/notifications/`;
 
+// User
+export const GET_USER_DETAILS = `${BACKEND_URL}/api/userDet/`;
 // Access list
 export const GET_ACCESS_LIST = `${BACKEND_URL}/api/authorizations/`;
 export const GAUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${CALLBACK_URL}&prompt=consent&response_type=token&client_id=${CLIENT_ID}&scope=openid%20email%20profile`;

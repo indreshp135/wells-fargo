@@ -40,5 +40,6 @@ export const USER_EXISTS = `${BACKEND_URL}/api/users`;
 
 // SOD User
 export const CREATE_SODUSER_URL = `${BACKEND_URL}/api/sodUser/create/`;
+export const GET_SOD_USER = `${BACKEND_URL}/api/sodUser/get/`;
 
 export const GAUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${CALLBACK_URL}&prompt=consent&response_type=token&client_id=${CLIENT_ID}&scope=openid%20email%20profile`;

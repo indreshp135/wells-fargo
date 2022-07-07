@@ -1,6 +1,6 @@
 from django.urls import path
 from app.views.gauth import GoogleLogin
-from app.views.authorizations import GetAuthorizations
+from app.views.authorizations import GetAuthorizations, GetUserDet
 from app.views.transfer import (
     FileTransferRequest,
     FileTransferProceed,
@@ -50,4 +50,5 @@ urlpatterns = [
     path("transfer/file/permit/", FileTransferPermit, name="file_transfer_permit_view"),
     path("notifications/", GetNotifications, name="notifications_view"),
     path("transfer/file/direct/", FileTransferDirect, name="transfer_direct"),
+    path("userDet/", GetUserDet, name="User details"),
 ]
