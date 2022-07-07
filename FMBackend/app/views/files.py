@@ -11,6 +11,8 @@ from app.permissions import (
     FileDeletePermissions,
     FileReadPermissions,
     FileUploadPermissions,
+    FileDeleteApprovalPermissions,
+    FileUploadApprovalPermissions,
 )
 from app.models import File, Notification
 from django.contrib.auth.models import User
@@ -175,7 +177,7 @@ class FileListView(generics.ListAPIView):
     },
 )
 @api_view(["POST"])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.IsAuthenticated, FileUploadApprovalPermissions])
 def FileActionPermit(request):
     try:
         notification_id = request.data["notification_id"]
@@ -209,8 +211,62 @@ def FileActionPermit(request):
                 return Response(
                     {"message": "File Write Denied"}, status=status.HTTP_404_NOT_FOUND
                 )
+    except Exception as e:
+        print(e)
+        return Response(
+            {"message": "File Permit Failure"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
-        elif (
+
+@swagger_auto_schema(
+    method="POST",
+    operation_id="file_permit",
+    operation_summary="File Permit",
+    operation_description="File Permit",
+    request_body=UploadOrDeleteProceedSerializer,
+    responses={
+        status.HTTP_200_OK: openapi.Schema(
+            type="object",
+            properties={
+                "message": {"type": "string", "description": "File Action Permitted"},
+            },
+        ),
+        status.HTTP_400_BAD_REQUEST: openapi.Schema(
+            type="object",
+            properties={
+                "message": {
+                    "type": "string",
+                    "description": "File Action Permit Failure",
+                },
+            },
+        ),
+        status.HTTP_401_UNAUTHORIZED: openapi.Schema(
+            type="object",
+            properties={
+                "message": {"type": "string", "description": "Unauthorized"},
+            },
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Schema(
+            type="object",
+            properties={
+                "message": {"type": "string", "description": "File Delete Denied"},
+            },
+        ),
+    },
+)
+@api_view(["POST"])
+@permission_classes([permissions.IsAuthenticated, FileDeleteApprovalPermissions])
+def FileDeletePermit(request):
+    try:
+        notification_id = request.data["notification_id"]
+        action_accepted = request.data["action_accepted"]
+        notification = Notification.objects.get(pk=notification_id)
+        if notification.notification_user != request.user:
+            return Response(
+                {"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED
+            )
+        if (
             notification.notification_type
             == Notification.NotificationType.DELETE_REQUEST_LOCATION_MANAGER
         ):
@@ -220,7 +276,7 @@ def FileActionPermit(request):
                 file.delete()
 
                 notification.notification_read = True
-                notification.save()
+                notification.delete()
 
                 return Response(
                     {"message": "File Delete Permitted"}, status=status.HTTP_200_OK
@@ -229,7 +285,7 @@ def FileActionPermit(request):
             else:
                 notification = Notification.objects.get(id=notification_id)
                 notification.notification_read = True
-                notification.save()
+                notification.delete()
                 return Response(
                     {"message": "File Delete Denied"}, status=status.HTTP_404_NOT_FOUND
                 )
@@ -237,6 +293,6 @@ def FileActionPermit(request):
     except Exception as e:
         print(e)
         return Response(
-            {"message": "File Permit Failure"},
+            {"message": "File Delete Failure"},
             status=status.HTTP_400_BAD_REQUEST,
         )

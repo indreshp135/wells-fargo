@@ -15,7 +15,10 @@ from app.serializers.transfer import (
     TransferProceedSerializer,
     NotificationSerializer,
 )
-from app.permissions import TransferRequestPermissions
+from app.permissions import (
+    TransferRequestPermissions,
+    TransferRequestApprovalPermissions,
+)
 
 
 @swagger_auto_schema(
@@ -55,7 +58,7 @@ from app.permissions import TransferRequestPermissions
     },
 )
 @api_view(["POST"])
-@permission_classes([permissions.IsAuthenticated, TransferRequestPermissions])
+@permission_classes([permissions.IsAuthenticated, TransferRequestApprovalPermissions])
 def FileTransferRequest(request):
     try:
         file_random_name = request.data["file_random_name"]
@@ -184,7 +187,7 @@ def FileTransferProceed(request):
                 requested_user=notification.requested_user,
                 file=file,
                 destination_folder=destination_folder,
-                notification_type=Notification.NotificationType.REQUEST_LOCATION_MANAGER,
+                notification_type=Notification.NotificationType.TRANSFER_REQUEST_LOCATION_MANAGER,
                 notification_user=User.objects.get(email=manager_email),
                 notification_read=False,
             )
@@ -423,11 +426,12 @@ def GetNotifications(request):
     },
 )
 @api_view(["POST"])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.IsAuthenticated, TransferRequestPermissions])
 def FileTransferDirect(request):
     try:
         file_random_name = request.data["file_random_name"]
         destination_folder = request.data["destination_folder"]
+        print(destination_folder)
         file = File.objects.get(file_random_name=file_random_name)
 
         if not Folder.objects.filter(folder_slug=destination_folder).exists():
@@ -435,11 +439,14 @@ def FileTransferDirect(request):
                 {"message": "Folder does not exist"}, status=status.HTTP_404_NOT_FOUND
             )
 
+        destination_folder = Folder.objects.get(folder_slug=destination_folder)
+
         if file.folder.folder_slug == destination_folder:
             return Response(
                 {"message": "File already in the destination folder"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        print("here")
 
         # get extension of the file
         _, extension = file.file_name.split(".")

@@ -101,7 +101,7 @@ if "test" in sys.argv or "test_coverage" in sys.argv:
             "NAME": BASE_DIR / "db-test.sqlite3",
         }
     }
-elif os.environ.get('PRODUCTION') == 'TRUE':
+elif os.environ.get("PRODUCTION") == "FALSE":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
