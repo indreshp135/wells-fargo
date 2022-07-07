@@ -26,7 +26,7 @@ environ.Env.read_env(env_file=os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = "django-insecure-#u-^66l_2y)we^r$b7jvu8v5!!^74-kr@glepz*%i+=_)dvlk^"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.environ.get("DEBUG") == "True" else False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -100,7 +100,7 @@ if "test" in sys.argv or "test_coverage" in sys.argv:
             "NAME": BASE_DIR / "db-test.sqlite3",
         }
     }
-elif DEBUG:
+elif os.environ.get('PRODUCTION') == 'TRUE':
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",

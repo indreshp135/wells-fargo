@@ -13,10 +13,17 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     libwebp-dev \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt requirements.txt
 
 RUN python -m pip install --upgrade pip setuptools wheel
 
 RUN pip install -r requirements.txt
 
+WORKDIR /app
+
 COPY . .
+
+ENTRYPOINT [ "/app/entrypoint.sh" ]
+
+CMD python manage.py runserver 0.0.0.0:8000
