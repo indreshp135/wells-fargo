@@ -12,7 +12,7 @@ import { MEDIA_URL } from '../../urls';
 import { transferRequest, transferDirect } from '../../requests';
 
 export default function Boxes({
-  files, folder, deleteFile, folders, showTra, showDel
+  files, folder, deleteFile, folders, showTra, showDel, setFiles
 }) {
   const [show, setShow] = React.useState(false);
   const [file, setFile] = React.useState('');
@@ -34,6 +34,10 @@ export default function Boxes({
       res = await transferRequest(data);
     } else if (showTra === 2) {
       res = await transferDirect(data);
+      const newFiles = files.filter((
+        { file_random_name: fileName }
+      ) => fileName !== file);
+      setFiles(newFiles);
     }
     if (res.status === 200) {
       setShow(false);
@@ -132,5 +136,6 @@ Boxes.propTypes = {
     folder_name: PropTypes.string.isRequired
   })).isRequired,
   showTra: PropTypes.number.isRequired,
-  showDel: PropTypes.number.isRequired
+  showDel: PropTypes.number.isRequired,
+  setFiles: PropTypes.func.isRequired
 };

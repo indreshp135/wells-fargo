@@ -7,7 +7,8 @@ import {
   transferPermit,
   transferProceed,
   getNotifications,
-  fileActionPermit
+  fileActionPermit,
+  fileDeleteActionPermit
 } from '../../requests';
 
 export function Pills() {
@@ -47,7 +48,7 @@ export function Pills() {
       } else {
         toast.error('Error Sending Transfer Request');
       }
-    } else {
+    } else if (type === 'WRLM') {
       const res = await fileActionPermit(data);
       if (res.status === 200) {
         setNotifications(
@@ -55,9 +56,21 @@ export function Pills() {
             ({ notification_id: notificationId }) => notificationId !== id
           )
         );
-        toast.success('Request Sent Successfully');
+        toast.success('Successful');
       } else {
-        toast.error('Error Sending Transfer Request');
+        toast.error('Error');
+      }
+    } else {
+      const res = await fileDeleteActionPermit(data);
+      if (res.status === 200) {
+        setNotifications(
+          Notifications.filter(
+            ({ notification_id: notificationId }) => notificationId !== id
+          )
+        );
+        toast.success('Successful');
+      } else {
+        toast.error('Error');
       }
     }
   };

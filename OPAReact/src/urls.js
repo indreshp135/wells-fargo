@@ -1,6 +1,4 @@
-import { CALLBACK_URL, CLIENT_ID } from './config';
-
-const BACKEND_URL = 'http://localhost:8000';
+import { CALLBACK_URL, CLIENT_ID, BACKEND_URL } from './config';
 
 export const GOOGLE_OAUTH_URL = `${BACKEND_URL}/api/auth/google/`;
 export const LOGOUT_URL = `${BACKEND_URL}/accounts/logout/`;

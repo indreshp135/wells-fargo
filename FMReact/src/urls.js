@@ -1,6 +1,4 @@
-import { CALLBACK_URL, CLIENT_ID } from './config';
-
-const BACKEND_URL = 'http://localhost:8001';
+import { CALLBACK_URL, CLIENT_ID, BACKEND_URL } from './config';
 
 export const GOOGLE_OAUTH_URL = `${BACKEND_URL}/api/auth/google/`;
 export const LOGOUT_URL = `${BACKEND_URL}/accounts/logout/`;
@@ -16,6 +14,7 @@ export const FOLDERS_URL = `${BACKEND_URL}/api/folder/`;
 export const FILES_URL = `${BACKEND_URL}/api/file/`;
 export const FILES_DELETE_URL = `${BACKEND_URL}/api/file/delete/`;
 export const FILE_ACTION = `${FILES_URL}action/`;
+export const FILES_DELETE_ACTION = `${FILE_ACTION}delete/`;
 export const FILES_PERMISSION_URL = `${BACKEND_URL}/api/file/permission/`;
 export const FILES_DELETE_PERMISSION = `${FILES_PERMISSION_URL}delete/`;
 

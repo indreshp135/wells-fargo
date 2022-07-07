@@ -84,8 +84,12 @@ export function FolderPage() {
     if (res.status === 201) {
       setShow(false);
       setFile('');
-      setFiles([...files, res.data]);
-      toast.success(res.data.message);
+      if (checkActionAccess('WRITE', location.name.toUpperCase()) === 2) {
+        setFiles([...files, res.data]);
+        toast.success('Fille uploaded successfully');
+      } else if (checkActionAccess('WRITE', location.name.toUpperCase()) === 1) {
+        toast.success('Request sent successfully');
+      }
     } else {
       toast.error('Error uploading file');
     }
@@ -110,6 +114,7 @@ export function FolderPage() {
             deleteFile={delFile}
             showDel={showDel}
             showTra={showTra}
+            setFiles={setFiles}
           />
         </div>
       </Container>

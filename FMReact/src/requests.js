@@ -14,7 +14,8 @@ import {
   FILES_DELETE_URL,
   FILES_DELETE_PERMISSION,
   FILES_PERMISSION_URL,
-  TRANSFER_DIRECT_URL
+  TRANSFER_DIRECT_URL,
+  FILES_DELETE_ACTION
 } from './urls';
 
 // public routes
@@ -46,6 +47,7 @@ export const createFile = (data) => axios.post(FILES_URL, data, {
 });
 export const deleteFile = (id) => axios.delete(`${FILES_DELETE_URL}${id}/`, header);
 export const fileActionPermit = (data) => axios.post(FILE_ACTION, data, header);
+export const fileDeleteActionPermit = (data) => axios.post(FILES_DELETE_ACTION, data, header);
 export const deletePermissionFile = (id) => axios.delete(`${FILES_DELETE_PERMISSION}${id}/`, header);
 export const createPermissionFile = (data) => axios.post(FILES_PERMISSION_URL, data, {
   headers: {
