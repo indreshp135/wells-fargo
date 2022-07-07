@@ -176,8 +176,4 @@ SITE_ID = int(os.environ.get("SITE_ID"))
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 MEDIA_URL = "/uploads/"
 
-<<<<<<< HEAD
-CSRF_TRUSTED_ORIGINS = ["https://fm.indreshp.xyz"]
-=======
-CSRF_TRUSTED_ORIGINS = [os.environ.get("HOSTED_URL")]
->>>>>>> feat: multiple flow (#21)
+CSRF_TRUSTED_ORIGINS = os.environ.get("HOSTED_URL").split(" ")
