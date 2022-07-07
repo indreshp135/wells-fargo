@@ -35,7 +35,6 @@ export function AuthPage() {
     const res = await googleAuth(data);
     if (res.status === 200 && res.data.key) {
       sessionStorage.setItem('Token', res.data.key);
-      history.push('/');
       toast.success('Authentication Success', {
         position: 'bottom-right',
         autoClose: 5000,
@@ -45,6 +44,7 @@ export function AuthPage() {
         draggable: true,
         progress: undefined
       });
+      history.push('/');
     } else {
       toast.error('Authentication Failed', {
         position: 'bottom-right',

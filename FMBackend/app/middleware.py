@@ -12,7 +12,6 @@ class GetAuthorization:
         self.url = os.environ.get("PBE_URL")
         self.app_hash = os.environ.get("APP_HASH")
         self.get_response = get_response
-        print(self.app_hash)
 
     @permission_classes([permissions.IsAuthenticated])
     def __call__(self, request):
@@ -24,7 +23,6 @@ class GetAuthorization:
                 request.user = token_obj.user
             except Token.DoesNotExist:
                 pass
-        print(request.user.is_authenticated)
         if request.user.is_authenticated:
             userDetails = {
                 "user_email": request.user.email,
@@ -37,7 +35,6 @@ class GetAuthorization:
                 request.authorizations = json.loads(pbe_server_response.text)
             else:
                 request.authorizations = []
-        print("middleware")
         response = self.get_response(request)
 
         return response

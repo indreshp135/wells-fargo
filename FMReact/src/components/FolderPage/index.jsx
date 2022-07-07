@@ -10,7 +10,7 @@ import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import Boxes from './Boxes';
 import {
-  getFiles, deleteFile, createFile, getFolders
+  getFiles, deleteFile, createFile, getFolders, deletePermissionFile, createPermissionFile
 } from '../../requests';
 import { checkActionAccess } from '../../redux/utils/checkAccess';
 
@@ -19,6 +19,8 @@ export function FolderPage() {
   const [show, setShow] = React.useState(false);
   const [file, setFile] = React.useState(null);
   const handleClose = () => setShow(false);
+  const [showDel, setShowDel] = React.useState(0);
+  const [showTra, setShowTra] = React.useState(0);
   const handleShow = () => {
     // location = location[0].charAt(0).toUpperCase() + location.slice(1);
     if (checkActionAccess('WRITE', location.name.toUpperCase())) {
@@ -37,7 +39,7 @@ export function FolderPage() {
       if (checkActionAccess('READ', location.name.toUpperCase())) {
         setFiles(response.data);
       } else {
-        toast.error('You donot have read permission for this page');
+        toast.error('You do not have read permission for this page');
       }
     }
     response = await getFolders();
@@ -45,16 +47,25 @@ export function FolderPage() {
       const otherFolders = response.data.filter((folder) => folder.folder_slug !== location.name);
       setFolders(otherFolders);
     }
+    setShowDel(checkActionAccess('DELETE', location.name.toUpperCase()));
+    setShowTra(checkActionAccess('TRANSFER', location.name.toUpperCase()));
   }, []);
 
   const delFile = async (fileRandomName) => {
-    const response = await deleteFile(fileRandomName);
-    if (response.status === 204) {
-      const newFiles = files.filter((
-        { file_random_name: fileName }
-      ) => fileName !== fileRandomName);
-      setFiles(newFiles);
-      toast.success('File deleted successfully');
+    let response;
+    if (showDel === 2) {
+      response = await deleteFile(fileRandomName);
+    } else if (showDel === 1) {
+      response = await deletePermissionFile(fileRandomName);
+    }
+    if (response.status === 204 || response.status === 200) {
+      if (showDel === 2) {
+        const newFiles = files.filter((
+          { file_random_name: fileName }
+        ) => fileName !== fileRandomName);
+        setFiles(newFiles);
+      }
+      toast.success(response.data.message);
     } else {
       toast.error('Error deleting file');
     }
@@ -64,12 +75,17 @@ export function FolderPage() {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('folder_slug', location.name);
-    const res = await createFile(formData);
+    let res;
+    if (checkActionAccess('WRITE', location.name.toUpperCase()) === 2) {
+      res = await createFile(formData);
+    } else if (checkActionAccess('WRITE', location.name.toUpperCase()) === 1) {
+      res = await createPermissionFile(formData);
+    }
     if (res.status === 201) {
       setShow(false);
       setFile('');
       setFiles([...files, res.data]);
-      toast.success('File uploaded successfully');
+      toast.success(res.data.message);
     } else {
       toast.error('Error uploading file');
     }
@@ -87,7 +103,14 @@ export function FolderPage() {
         </div>
         <div className="text-center">
           <h1>{location.name.toUpperCase()}</h1>
-          <Boxes files={files} folders={folders} folder={location.name} deleteFile={delFile} />
+          <Boxes
+            files={files}
+            folders={folders}
+            folder={location.name}
+            deleteFile={delFile}
+            showDel={showDel}
+            showTra={showTra}
+          />
         </div>
       </Container>
       <Modal show={show} onHide={handleClose}>

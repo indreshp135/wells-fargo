@@ -14,7 +14,6 @@ from rest_framework import status
 @api_view(["GET"])
 @permission_classes([permissions.IsAuthenticated])
 def GetAuthorizations(request):
-    print(request.user)
     try:
         return Response({"allowed": request.authorizations}, status=status.HTTP_200_OK)
     except Exception as e:

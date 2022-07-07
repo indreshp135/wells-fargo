@@ -9,8 +9,12 @@ import {
   TRANSFER_PROCEED_URL,
   TRANSFER_REQUEST_URL,
   GET_NOTIFICATIONS_URL,
-  GET_ACCESS_LIST
-
+  GET_ACCESS_LIST,
+  FILE_ACTION,
+  FILES_DELETE_URL,
+  FILES_DELETE_PERMISSION,
+  FILES_PERMISSION_URL,
+  TRANSFER_DIRECT_URL
 } from './urls';
 
 // public routes
@@ -40,12 +44,21 @@ export const createFile = (data) => axios.post(FILES_URL, data, {
     'Content-Type': 'multipart/form-data'
   }
 });
-export const deleteFile = (id) => axios.delete(`${FILES_URL}${id}/`, header);
+export const deleteFile = (id) => axios.delete(`${FILES_DELETE_URL}${id}/`, header);
+export const fileActionPermit = (data) => axios.post(FILE_ACTION, data, header);
+export const deletePermissionFile = (id) => axios.delete(`${FILES_DELETE_PERMISSION}${id}/`, header);
+export const createPermissionFile = (data) => axios.post(FILES_PERMISSION_URL, data, {
+  headers: {
+    Authorization: `Token ${sessionStorage.getItem('Token')}`,
+    'Content-Type': 'multipart/form-data'
+  }
+});
 
 // transfers
 export const transferRequest = (data) => axios.post(TRANSFER_REQUEST_URL, data, header);
 export const transferProceed = (data) => axios.post(TRANSFER_PROCEED_URL, data, header);
 export const transferPermit = (data) => axios.post(TRANSFER_PERMIT_URL, data, header);
+export const transferDirect = (data) => axios.post(TRANSFER_DIRECT_URL, data, header);
 
 // notifications
 export const getNotifications = () => axios.get(GET_NOTIFICATIONS_URL, header);

@@ -26,7 +26,7 @@ environ.Env.read_env(env_file=os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = "django-insecure-#u-^66l_2y)we^r$b7jvu8v5!!^74-kr@glepz*%i+=_)dvlk^"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.environ.get("DEBUG") == "True" else False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -101,21 +101,24 @@ if "test" in sys.argv or "test_coverage" in sys.argv:
             "NAME": BASE_DIR / "db-test.sqlite3",
         }
     }
-else:
+elif DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-    # DATABASES = {
-    #     "default": {
-    #         "ENGINE": "djongo",
-    #         "NAME": os.environ.get("DB_NAME"),
-    #         "HOST": os.environ.get("DB_HOST"),
-    #         "PORT": os.environ.get("DB_PORT"),
-    #     }
-    # }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": os.environ.get("SQL_ENGINE"),
+            "NAME": os.environ.get("SQL_DATABASE"),
+            "USER": os.environ.get("SQL_USER"),
+            "PASSWORD": os.environ.get("SQL_PASSWORD"),
+            "HOST": os.environ.get("SQL_HOST"),
+            "PORT": os.environ.get("SQL_PORT"),
+        }
+    }
 
 
 # Password validation
