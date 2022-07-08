@@ -39,7 +39,7 @@ class PermissionUploadView(generics.CreateAPIView):
         MultiPartParser,
         FormParser,
     )
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, FileUploadApprovalPermissions]
     queryset = File.objects.all()
     serializer_class = FileSerializerPermission
 
@@ -85,7 +85,7 @@ class FileDeleteView(generics.DestroyAPIView):
         ),
     },
 )
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.IsAuthenticated, FileDeleteApprovalPermissions])
 @api_view(["DELETE"])
 def delete_file_permission(request, file_random_name):
     try:
@@ -177,7 +177,7 @@ class FileListView(generics.ListAPIView):
     },
 )
 @api_view(["POST"])
-@permission_classes([permissions.IsAuthenticated, FileUploadApprovalPermissions])
+@permission_classes([permissions.IsAuthenticated])
 def FileActionPermit(request):
     try:
         notification_id = request.data["notification_id"]
@@ -256,7 +256,7 @@ def FileActionPermit(request):
     },
 )
 @api_view(["POST"])
-@permission_classes([permissions.IsAuthenticated, FileDeleteApprovalPermissions])
+@permission_classes([permissions.IsAuthenticated])
 def FileDeletePermit(request):
     try:
         notification_id = request.data["notification_id"]

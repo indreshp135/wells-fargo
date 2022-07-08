@@ -4,7 +4,6 @@ import { APPROVAL_REQUIRED, PERMISSION_DENIED } from '../actionTypes/AccessTypes
 // Filter folders and don't display folders with all actions as PERMISSION_DENIED
 export function filterAssetAccess(folders) {
   const { accessList } = store.getState().access;
-  console.log(accessList);
   const filteredList = [];
 
   folders.forEach((folder) => {

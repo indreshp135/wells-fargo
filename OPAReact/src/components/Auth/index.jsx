@@ -44,7 +44,7 @@ export function AuthPage() {
         draggable: true,
         progress: undefined
       });
-      history.push('/');
+      setTimeout(() => history.push('/'), 100);
     } else {
       toast.error('Authentication Failed', {
         position: 'bottom-right',
