@@ -35,20 +35,32 @@ export function AuthPage() {
       draggable: true,
       progress: undefined
     });
-    const res = await googleAuth(data);
-    if (res.status === 200 && res.data.key) {
-      sessionStorage.setItem('Token', res.data.key);
-      toast.success('Authentication Success', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      });
-      setTimeout(() => history.push('/'), 100);
-    } else {
+    try {
+      const res = await googleAuth(data);
+      if (res.status === 200 && res.data.key) {
+        sessionStorage.setItem('Token', res.data.key);
+        toast.success('Authentication Success', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+        setTimeout(() => history.push('/'), 100);
+      } else {
+        toast.error('Authentication Failed', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+      }
+    } catch (err) {
       toast.error('Authentication Failed', {
         position: 'bottom-right',
         autoClose: 5000,
@@ -92,20 +104,32 @@ export function AuthPage() {
       draggable: true,
       progress: undefined
     });
-    const res = await userLogin(data);
-    if (res.status === 200 && res.data.key) {
-      sessionStorage.setItem('Token', res.data.key);
-      toast.success('Authentication Success', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      });
-      setTimeout(() => history.push('/'), 100);
-    } else {
+    try {
+      const res = await userLogin(data);
+      if (res.status === 200 && res.data.key) {
+        sessionStorage.setItem('Token', res.data.key);
+        toast.success('Authentication Success', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+        setTimeout(() => history.push('/'), 100);
+      } else {
+        toast.success('Authentication Failed', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+      }
+    } catch (err) {
       toast.error('Authentication Failed', {
         position: 'bottom-right',
         autoClose: 5000,

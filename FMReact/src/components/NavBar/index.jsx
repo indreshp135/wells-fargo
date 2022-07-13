@@ -17,15 +17,16 @@ export function NavBar() {
   const [name, setName] = useState('');
   const [sod, setSod] = useState('');
   useEffect(async () => {
-    const resp = await getUserDisplayDetails();
+    setName('');
+    setSod('');
+    const [resp, r] = await Promise.all([getUserDisplayDetails(), getUserDetails()]);
     if (resp.status === 200) {
       setSod(JSON.parse(resp.data.data[0])[0].sod_name);
-      const r = await getUserDetails();
-      if (r.status === 200) {
-        setName(`${r.data.first_name} ${r.data.last_name}`);
-      }
     }
-  }, []);
+    if (r.status === 200) {
+      setName(`${r.data.first_name} ${r.data.last_name}`);
+    }
+  }, [currentLocation.pathname]);
 
   const logout = async () => {
     sessionStorage.removeItem('Token');
