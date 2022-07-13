@@ -13,9 +13,9 @@
   padding: 30px;
   width: 200px;
   opacity: 0.95;
-  transition: box-shadow 0.3s;
+  transition: box-shadow ease 0.3s;
   border-radius: 1rem;
-  box-shadow: 0 12px 15px 0 hsl(0deg 0% 100% / 24%), 0 17px 50px 0 hsl(0deg 0% 100% / 19%);
+  box-shadow: 0 0 50px #ccc;
   text-align: center;
   cursor: pointer;
 }
