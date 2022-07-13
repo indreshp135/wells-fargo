@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   GOOGLE_OAUTH_URL,
+  LOGIN_URL,
   LOGOUT_URL,
   USER_URL,
   FOLDERS_URL,
@@ -21,6 +22,7 @@ import {
 
 // public routes
 export const googleAuth = (data) => axios.post(GOOGLE_OAUTH_URL, data);
+export const userLogin = (data) => axios.post(LOGIN_URL, data);
 
 // private routes
 
