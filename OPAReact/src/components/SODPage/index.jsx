@@ -1,3 +1,7 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPlus
+} from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import {
   ListGroup, Container, Row, Col, Button, Modal, Form
@@ -42,15 +46,20 @@ export function SODPage() {
     }
   }
   return (
-    <Container>
+    <Container className="my-3">
+      <div className="d-flex justify-content-end">
+        <Button variant="outline-warning" onClick={handleShow}>
+          <FontAwesomeIcon icon={faPlus} />
+          {' '}
+          Add new SOD
+        </Button>
+      </div>
       <h1 className="text-center mt-5">List Of SODs</h1>
       <Row>
         <Col className="mx-auto mt-3" lg={5}>
           <ListGroup as="ol" numbered>
             {sodList.map((sod) => <EachSOD sodName={sod.sod_name.split('/')[0]} sodCode={sod.sod_code} key={sod.sod_code} location={sod.sod_name.split('/')[1]} updateDelete={() => updateDelete()} />)}
           </ListGroup>
-
-          <div className="mt-3"><Button variant="success" onClick={handleShow}>Add New SOD</Button></div>
         </Col>
 
       </Row>
@@ -72,7 +81,7 @@ export function SODPage() {
             </Form.Group>
 
             <Button variant="primary" type="submit" onClick={() => handleCreateSOD()}>
-              Submit
+              Add SOD
             </Button>
           </Form>
         </Modal.Body>

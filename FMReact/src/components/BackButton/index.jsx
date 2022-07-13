@@ -13,7 +13,7 @@ export function BackButton() {
         variant="outline-secondary"
         style={
           {
-            position: 'absolute',
+            position: 'fixed',
             bottom: '0',
             right: '0',
             margin: '30px',

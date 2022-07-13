@@ -53,19 +53,22 @@ export function NavBar() {
           <Navbar.Brand onClick={() => history.push('/')}>
             File Management
           </Navbar.Brand>
-
-          <div className="mx-auto text-black px-3 bg-warning" style={{ borderRadius: '8px' }}>
-            Name:
-            {' '}
-            {name}
-          </div>
-          {' '}
-          <div className=" text-black px-3 bg-warning rounded-5 " style={{ borderRadius: '8px' }}>
-            SOD:
-            (
-            {sod}
-            )
-          </div>
+          {currentLocation.pathname !== '/auth' ? (
+            <>
+              <div className="mx-auto text-black px-3 bg-warning" style={{ borderRadius: '8px' }}>
+                Name:
+                {' '}
+                {name}
+              </div>
+              {' '}
+              <div className=" text-black px-3 bg-warning rounded-5 " style={{ borderRadius: '8px' }}>
+                SOD:
+                (
+                {sod}
+                )
+              </div>
+            </>
+          ) : null}
           <Nav className="ms-auto">
             {currentLocation.pathname !== '/auth' ? (
               <>
