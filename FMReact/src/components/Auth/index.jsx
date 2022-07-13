@@ -141,7 +141,7 @@ export function AuthPage() {
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Username</Form.Label>
-              <Form.Control required type="name" onChange={(e) => { setUsername(e.target.value); }} placeholder="Enter email" />
+              <Form.Control required type="name" onChange={(e) => { setUsername(e.target.value); }} placeholder="Enter username" />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
