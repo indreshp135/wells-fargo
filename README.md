@@ -24,6 +24,7 @@ existing system/database.
 - Run
         `pre-commit install`
 - Copy env file using `cp .env.example .env` and fill in the necessary fields
+- Run migrations using `python manage.py migrate`
 - Start the server
 	    `python manage.py runserver`
 - PBE server is available at [http://localhost:8000](http://localhost:8000)
