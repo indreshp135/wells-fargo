@@ -53,8 +53,8 @@ export function AddUsersPage() {
     }
   }
   return (
-    <Container className="w-25 mt-5">
-      <h1>Add new user</h1>
+    <Container className="my-3">
+      <h1 className="text-center">Add new user</h1>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -72,10 +72,11 @@ export function AddUsersPage() {
 
           </Form.Select>
         </Form.Group>
-
-        <Button variant="primary" type="button" onClick={() => controlSubmit()}>
-          Submit
-        </Button>
+        <div className="text-center">
+          <Button variant="outline-warning" type="button" onClick={() => controlSubmit()}>
+            Add User
+          </Button>
+        </div>
       </Form>
     </Container>
   );
