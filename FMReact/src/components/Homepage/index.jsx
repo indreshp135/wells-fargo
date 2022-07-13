@@ -1,8 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
-import {
-  faPlus
-} from '@fortawesome/free-solid-svg-icons';
+// import {
+//   faPlus
+// } from '@fortawesome/free-solid-svg-icons';
 import {
   Button, Container, Modal, Form
 } from 'react-bootstrap';
@@ -18,7 +18,7 @@ export function Homepage() {
   const [show, setShow] = React.useState(false);
   const [folderName, setFolderName] = React.useState('');
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleShow = () => setShow(true);
   const [folders, setFolders] = React.useState([]);
   const dispatch = useDispatch();
   useEffect(async () => {
@@ -47,13 +47,13 @@ export function Homepage() {
     <>
       {' '}
       <Container className="my-3">
-        <div className="d-flex justify-content-end">
+        {/* <div className="d-flex justify-content-end">
           <Button variant="outline-warning" onClick={handleShow}>
             <FontAwesomeIcon icon={faPlus} />
             {' '}
             Add new Folder
           </Button>
-        </div>
+        </div> */}
         <div className="text-center">
           <Boxes folders={folders} />
         </div>

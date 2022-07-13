@@ -6,7 +6,7 @@ from app.models import SODRules
 class SODRulesList(generics.ListAPIView):
 
     serializer_class = SODRulesSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
 
     def get_queryset(self):
         queryset = SODRules.objects.all()
@@ -21,7 +21,7 @@ class SODRulesList(generics.ListAPIView):
 
 class SODRulesGet(generics.ListAPIView):
     serializer_class = SODRulesSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
 
     def get_queryset(self):
         queryset = SODRules.objects.all()
@@ -33,16 +33,16 @@ class SODRulesGet(generics.ListAPIView):
 class SODRulesCreate(generics.ListCreateAPIView):
     queryset = SODRules.objects.all()
     serializer_class = SODRulesSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
 
 
 class SODRulesUpdate(generics.RetrieveUpdateAPIView):
     queryset = SODRules.objects.all()
     serializer_class = SODRulesSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
 
 
 class SODRulesDelete(generics.DestroyAPIView):
     queryset = SODRules.objects.all()
     serializer_class = SODRulesSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
