@@ -6,7 +6,10 @@
             "username": "test",
             "first_name": "",
             "last_name": "",
-            "email": "test@gmail.com"
+            "email": "test@gmail.com",
+            "is_staff": true,
+            "is_active": true,
+            "is_superuser": true
         }
     }
 ]
