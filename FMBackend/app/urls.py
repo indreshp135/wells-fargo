@@ -41,7 +41,7 @@ urlpatterns = [
         "file/permission/", PermissionUploadView.as_view(), name="file_permission_view"
     ),
     path("file/action/", FileActionPermit, name="file_action_permit_view"),
-    path("file/action/delete", FileDeletePermit, name="file_delete_permit_view"),
+    path("file/action/delete/", FileDeletePermit, name="file_delete_permit_view"),
     path("folder/<str:folder>/", FileListView.as_view(), name="file_list_view"),
     path("transfer/file/request/", FileTransferRequest, name="file_transfer_view"),
     path(

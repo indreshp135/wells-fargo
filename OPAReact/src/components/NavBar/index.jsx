@@ -34,7 +34,7 @@ export function NavBar() {
       >
         <Container>
           <Navbar.Brand onClick={() => history.push('/')}>
-            PBE Admin
+            PoliAuth
           </Navbar.Brand>
           <Nav className="ms-auto">
             {currentLocation.pathname !== '/auth' ? <Nav.Link onClick={logout}><Button variant="danger">Logout</Button></Nav.Link> : null}
