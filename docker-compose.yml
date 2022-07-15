@@ -59,3 +59,21 @@ services:
       - ./FMBackend/.env
     volumes:
       - "./FMBackend/db/postgres_data:/var/lib/postgresql/data"
+
+  prometheus:
+    image: prom/prometheus:v2.14.0
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "127.0.0.1:9090:9090"
+
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+  grafana:
+    image: grafana/grafana:6.5.2
+    ports:
+      - "127.0.0.1:3060:3000"
+    environment:
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_DASHBOARDS_JSON_ENABLED=true
