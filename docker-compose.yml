@@ -50,6 +50,8 @@ services:
       - "8001:8001"
     env_file:
       - ./FMBackend/.env
+    volumes:
+      - "./FMBackend/uploads:/app/uploads"
 
   fm_db:
     container_name: fm_db
@@ -59,3 +61,24 @@ services:
       - ./FMBackend/.env
     volumes:
       - "./FMBackend/db/postgres_data:/var/lib/postgresql/data"
+
+  prometheus:
+    image: prom/prometheus:v2.14.0
+    restart: unless-stopped
+    user: root
+    volumes:
+      - ./prom_data:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+  grafana:
+    image: grafana/grafana:6.5.2
+    ports:
+      - "3060:3000"
+    environment:
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_DASHBOARDS_JSON_ENABLED=true
