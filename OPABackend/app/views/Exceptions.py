@@ -5,7 +5,7 @@ from app.models import ExceptionRules
 
 class ExceptionsList(generics.ListAPIView):
     serializer_class = ExceptionsSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
     lookup_field = "application_hash"
 
     def get_queryset(self):
@@ -17,11 +17,11 @@ class ExceptionsList(generics.ListAPIView):
 class ExceptionsCreate(generics.CreateAPIView):
     queryset = ExceptionRules.objects.all()
     serializer_class = ExceptionsSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
 
 
 class ExceptionsDeleteRetrive(generics.RetrieveUpdateDestroyAPIView):
     queryset = ExceptionRules.objects.all()
     serializer_class = ExceptionsSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
     lookup_field = "exception_rule_id"

@@ -8,6 +8,7 @@ import {
   Button, Container, Modal, Form, InputGroup
 } from 'react-bootstrap';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { toast } from 'react-toastify';
 import Boxes from './Boxes';
 import { postApplication, getApplications } from '../../requests';
 
@@ -24,20 +25,30 @@ export function Homepage() {
   const [applications, setApplications] = React.useState([]);
 
   useEffect(async () => {
-    const res = await getApplications();
-    setApplications(res.data);
+    try {
+      const res = await getApplications();
+      setApplications(res.data);
+    } catch (e) {
+      toast.error('You are not authorized to perform any action');
+    }
   }, []);
 
   const submitApplication = async () => {
-    setshowClip(true);
     const data = {
       application_name: applicationName,
       application_description: applicationDescription
     };
-    const res = await postApplication(data);
-    if (res.status === 201) {
-      setApplications([...applications, res.data]);
-      setApplicationHash(res.data.application_hash);
+    try {
+      const res = await postApplication(data);
+      if (res.status === 201) {
+        setshowClip(true);
+        setApplications([...applications, res.data]);
+        setApplicationHash(res.data.application_hash);
+      } else if (res.status === 403) {
+        toast.error('You are not authorized to create an application');
+      }
+    } catch (e) {
+      toast.error('You are not authorized to create an application');
     }
   };
   return (

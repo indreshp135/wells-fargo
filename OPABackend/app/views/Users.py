@@ -7,7 +7,7 @@ from drf_yasg import openapi
 
 class UserList(generics.ListAPIView):
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
 
     def get_queryset(self):
         queryset = Users.objects.all()

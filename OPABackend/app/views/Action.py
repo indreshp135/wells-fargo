@@ -5,7 +5,7 @@ from app.models import Action
 
 class ActionList(generics.ListAPIView):
     serializer_class = ActionListSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
     lookup_field = "application_hash"
 
     def get_queryset(self):
@@ -16,5 +16,5 @@ class ActionList(generics.ListAPIView):
 
 class ActionCreate(generics.CreateAPIView):
     serializer_class = ActionSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
     queryset = Action.objects.all()

@@ -2,6 +2,7 @@ import { CALLBACK_URL, CLIENT_ID, BACKEND_URL } from './config';
 
 export const GOOGLE_OAUTH_URL = `${BACKEND_URL}/api/auth/google/`;
 export const LOGOUT_URL = `${BACKEND_URL}/accounts/logout/`;
+export const LOGIN_URL = `${BACKEND_URL}/accounts/login/`;
 export const USER_URL = `${BACKEND_URL}/accounts/user/`;
 
 // Media

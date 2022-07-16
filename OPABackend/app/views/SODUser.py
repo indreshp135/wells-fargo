@@ -8,7 +8,7 @@ from rest_framework.response import Response
 class SODUserCreate(generics.CreateAPIView):
     queryset = SodUser.objects.all()
     serializer_class = SodUserSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
 
 
 class GetSODUser(generics.ListAPIView):
