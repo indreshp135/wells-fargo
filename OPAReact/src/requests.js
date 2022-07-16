@@ -33,49 +33,52 @@ export const googleAuth = (data) => axios.post(GOOGLE_OAUTH_URL, data);
 // private routes
 
 // header for Auth
-const header = {
-  headers: {
-    Authorization: `Token ${sessionStorage.getItem('Token')}`
-  }
+const getHeader = () => {
+  const header = {
+    headers: {
+      Authorization: `Token ${sessionStorage.getItem('Token')}`
+    }
+  };
+  return header;
 };
 
-export const getUserDetails = () => axios.get(USER_URL, header);
-export const userLogout = () => axios.post(LOGOUT_URL, header);
+export const getUserDetails = () => axios.get(USER_URL, getHeader());
+export const userLogout = () => axios.post(LOGOUT_URL, getHeader());
 
 // Assets
-export const getAssets = (hash) => axios.get(`${ASSETS_GET_URL}${hash}`, header);
-export const postAsset = (data) => axios.post(ASSETS_POST_URL, data, header);
+export const getAssets = (hash) => axios.get(`${ASSETS_GET_URL}${hash}`, getHeader());
+export const postAsset = (data) => axios.post(ASSETS_POST_URL, data, getHeader());
 
 // Actions
-export const getActions = (hash) => axios.get(`${ACTION_GET_URL}${hash}`, header);
-export const postAction = (data) => axios.post(ACTION_POST_URL, data, header);
+export const getActions = (hash) => axios.get(`${ACTION_GET_URL}${hash}`, getHeader());
+export const postAction = (data) => axios.post(ACTION_POST_URL, data, getHeader());
 
 // SODs
-export const getSOD = (hash) => axios.get(`${SOD_GET_URL}${hash}`, header);
-export const postSOD = (data) => axios.post(SOD_POST_URL, data, header);
-export const deleteSOD = (id) => axios.delete(`${SOD_DELETE_URL + id}/delete`, header);
+export const getSOD = (hash) => axios.get(`${SOD_GET_URL}${hash}`, getHeader());
+export const postSOD = (data) => axios.post(SOD_POST_URL, data, getHeader());
+export const deleteSOD = (id) => axios.delete(`${SOD_DELETE_URL + id}/delete`, getHeader());
 
 // SOD Rules
-export const getSODRules = (query) => axios.get(`${SODRULES_GET_URL}?${query}`, header);
-export const postSODRules = (data) => axios.post(SODRULES_POST_URL, data, header);
-export const deleteSODRules = (id) => axios.delete(`${SODRULES_DELETE_URL + id}/delete`, header);
-export const geteachSODRules = (query) => axios.get(`${EACH_SODRULES_GET_URL}?${query}`, header);
+export const getSODRules = (query) => axios.get(`${SODRULES_GET_URL}?${query}`, getHeader());
+export const postSODRules = (data) => axios.post(SODRULES_POST_URL, data, getHeader());
+export const deleteSODRules = (id) => axios.delete(`${SODRULES_DELETE_URL + id}/delete`, getHeader());
+export const geteachSODRules = (query) => axios.get(`${EACH_SODRULES_GET_URL}?${query}`, getHeader());
 
 // Exceptions
-export const getExceptions = (hash) => axios.get(`${EXCEPTIONS_GET_URL}${hash}`, header);
-export const postExceptions = (data) => axios.post(EXCEPTIONS_POST_URL, data, header);
-export const deleteExceptions = (id) => axios.delete(`${EXCEPTIONS_DELETE_URL}${id}/change`, header);
-export const getException = (id) => axios.get(`${EXCEPTIONS_RETRIVE_URL}${id}/change`, header);
-export const updateException = (id, data) => axios.put(`${EXCEPTIONS_RETRIVE_URL}${id}/change`, data, header);
+export const getExceptions = (hash) => axios.get(`${EXCEPTIONS_GET_URL}${hash}`, getHeader());
+export const postExceptions = (data) => axios.post(EXCEPTIONS_POST_URL, data, getHeader());
+export const deleteExceptions = (id) => axios.delete(`${EXCEPTIONS_DELETE_URL}${id}/change`, getHeader());
+export const getException = (id) => axios.get(`${EXCEPTIONS_RETRIVE_URL}${id}/change`, getHeader());
+export const updateException = (id, data) => axios.put(`${EXCEPTIONS_RETRIVE_URL}${id}/change`, data, getHeader());
 
 // Applications
-export const getApplications = () => axios.get(APPLICATION_GET_URL, header);
-export const postApplication = (data) => axios.post(APPLICATION_POST_URL, data, header);
+export const getApplications = () => axios.get(APPLICATION_GET_URL, getHeader());
+export const postApplication = (data) => axios.post(APPLICATION_POST_URL, data, getHeader());
 
 // Users
-export const getUsers = () => axios.get(USERS_GET_URL, header);
-export const getUserExist = (query) => axios.get(`${USER_EXISTS}?${query}`, header);
+export const getUsers = () => axios.get(USERS_GET_URL, getHeader());
+export const getUserExist = (query) => axios.get(`${USER_EXISTS}?${query}`, getHeader());
 
 // Sod User
-export const postSodUser = (data) => axios.post(CREATE_SODUSER_URL, data, header);
-export const getSODUser = (hash) => axios.get(`${GET_SOD_USER}${hash}`, header);
+export const postSodUser = (data) => axios.post(CREATE_SODUSER_URL, data, getHeader());
+export const getSODUser = (hash) => axios.get(`${GET_SOD_USER}${hash}`, getHeader());

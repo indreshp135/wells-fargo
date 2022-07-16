@@ -5,7 +5,7 @@ from app.models import Asset
 
 class AssetList(generics.ListAPIView):
     serializer_class = AssetListSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
     lookup_field = "application_hash"
 
     def get_queryset(self):
@@ -17,4 +17,4 @@ class AssetList(generics.ListAPIView):
 class AssetCreate(generics.CreateAPIView):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)

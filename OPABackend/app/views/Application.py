@@ -9,7 +9,7 @@ from app.models import Application
 class ApplicationList(generics.ListCreateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
 
     def get_serializer_class(self):
         if self.request.method == "GET":

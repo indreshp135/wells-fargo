@@ -6,12 +6,12 @@ from app.models import SOD
 class SODCreate(generics.CreateAPIView):
     queryset = SOD.objects.all()
     serializer_class = SODSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
 
 
 class SODList(generics.ListAPIView):
     serializer_class = SODSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)
     lookup_field = "application_hash"
 
     def get_queryset(self):
@@ -22,4 +22,4 @@ class SODList(generics.ListAPIView):
 class SODDelete(generics.DestroyAPIView):
     queryset = SOD.objects.all()
     serializer_class = SODSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAdminUser,)

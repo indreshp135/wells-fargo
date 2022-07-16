@@ -54,7 +54,7 @@ export function SODPage() {
           Add new SOD
         </Button>
       </div>
-      <h1 className="text-center mt-5">List Of SODs</h1>
+      <h1 className="text-center">List Of SODs</h1>
       <Row>
         <Col className="mx-auto mt-3" lg={5}>
           <ListGroup as="ol" numbered>
