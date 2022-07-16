@@ -184,7 +184,7 @@ def FileTransferProceed(request):
                 manager_email = res["manager"]
 
             Notification.objects.create(
-                requested_user=notification.requested_user,
+                requested_user=notification.notification_user,
                 file=file,
                 destination_folder=destination_folder,
                 notification_type=Notification.NotificationType.TRANSFER_REQUEST_LOCATION_MANAGER,

@@ -21,3 +21,4 @@ PyYAML==6.0
 toml==0.10.2
 virtualenv==20.14.1
 psycopg2==2.9.3
+django-prometheus==2.2.0
