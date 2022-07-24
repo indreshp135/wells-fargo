@@ -126,7 +126,7 @@ jobs:
     - name: deploy
       uses: appleboy/ssh-action@master
       with:
-        host: wells.indreshp.xyz
+        host: wells.sailesh.software
         port: 22
         username: wells-intern
         password: ${{ secrets.SSH_KEY }}
